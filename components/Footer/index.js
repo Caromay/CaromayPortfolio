@@ -16,7 +16,14 @@ const Footer = ({}) => {
             <h1 className="text-3xl tablet:text-6xl laptop:text-6xl laptopl:text-8xl text-bold">
               TOGETHER
             </h1>
-            <Button type="primary">Schedule a call</Button>
+            <Button
+              onClick={() =>
+                window.open("/resume", "_blank", "noopener,noreferrer")
+              }
+              type="primary"
+            >
+              Resume
+            </Button>
             <div className="mt-10">
               <Socials />
             </div>

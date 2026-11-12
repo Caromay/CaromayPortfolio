@@ -19,6 +19,12 @@ Blog - https://www.chetanverma.com/blog/how-to-build-a-portfolio-website-using-n
 - Blog Crud (Create, Read, Update, Delete blog with easy to use UI).
 - Dark Mode
 
+### Certificates and résumé
+
+- Add certificate entries to `data/certificates.json`. Each entry can include an `id`, `title`, `issuer`, `date`, and `imageSrc`; image paths can point to files in `public/`.
+- Certificates appear below the projects in the Work section, with empty image slots until entries are added.
+- The résumé popup can be printed or saved as a PDF from the browser's print dialog.
+- Light and dark themes are switchable from the header; portfolio sections animate into view as you scroll.
 
 ### Sections
 
@@ -71,9 +77,6 @@ If you liked this portfolio template, don't forget to give it a ⭐.
 Many hours of hard work have gone into this project. Your support will be very appreciated!
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/chetanverma)
-
-
-
 
 
 

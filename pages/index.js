@@ -1,142 +1,447 @@
-import { useRef } from "react";
-import Header from "../components/Header";
-import ServiceCard from "../components/ServiceCard";
-import Socials from "../components/Socials";
-import WorkCard from "../components/WorkCard";
-import { useIsomorphicLayoutEffect } from "../utils";
-import { stagger } from "../animations";
-import Footer from "../components/Footer";
+import { useEffect, useMemo, useState } from "react";
 import Head from "next/head";
-import Button from "../components/Button";
-import Link from "next/link";
-import Cursor from "../components/Cursor";
-
-// Local Data
+import { useTheme } from "next-themes";
+import certificates from "../data/certificates.json";
 import data from "../data/portfolio.json";
 
+const navigation = [
+  ["About", "about"],
+  ["Skills", "skills"],
+  ["Experience", "experience"],
+  ["Work", "work"],
+  ["Contact", "contact"],
+];
+
+function getSkills(resume) {
+  return [
+    ...(resume.languages || []),
+    ...(resume.frameworks || []),
+    ...(resume.others || []),
+  ];
+}
+
+function getBullets(bullets) {
+  if (Array.isArray(bullets)) return bullets;
+  if (typeof bullets === "string") {
+    return bullets.split(",").map((bullet) => bullet.trim()).filter(Boolean);
+  }
+  return [];
+}
+
 export default function Home() {
-  // Ref
-  const workRef = useRef();
-  const aboutRef = useRef();
-  const textOne = useRef();
-  const textTwo = useRef();
-  const textThree = useRef();
-  const textFour = useRef();
-
-  // Handling Scroll
-  const handleWorkScroll = () => {
-    window.scrollTo({
-      top: workRef.current.offsetTop,
-      left: 0,
-      behavior: "smooth",
-    });
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const [resumeOpen, setResumeOpen] = useState(false);
+  const [resumeLoaded, setResumeLoaded] = useState(false);
+  const skills = useMemo(() => getSkills(data.resume || {}), []);
+  const initials = (data.name || "Portfolio")
+    .split(/\s+/)
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+  const openResume = () => {
+    setResumeLoaded(false);
+    setResumeOpen(true);
   };
 
-  const handleAboutScroll = () => {
-    window.scrollTo({
-      top: aboutRef.current.offsetTop,
-      left: 0,
-      behavior: "smooth",
-    });
-  };
+  useEffect(() => setMounted(true), []);
 
-  useIsomorphicLayoutEffect(() => {
-    stagger(
-      [textOne.current, textTwo.current, textThree.current, textFour.current],
-      { y: 40, x: -10, transform: "scale(0.95) skew(10deg)" },
-      { y: 0, x: 0, transform: "scale(1)" }
+  useEffect(() => {
+    const revealItems = document.querySelectorAll(
+      ".portfolio [data-reveal]"
     );
+    if (!window.IntersectionObserver) {
+      revealItems.forEach((item) => item.classList.add("is-visible"));
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+
+    revealItems.forEach((item) => observer.observe(item));
+    document.documentElement.classList.add("motion-ready");
+
+    return () => {
+      observer.disconnect();
+      document.documentElement.classList.remove("motion-ready");
+    };
   }, []);
 
+  useEffect(() => {
+    if (!resumeOpen) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") setResumeOpen(false);
+    };
+
+    document.addEventListener("keydown", closeOnEscape);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", closeOnEscape);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [resumeOpen]);
+
   return (
-    <div className={`relative ${data.showCursor && "cursor-none"}`}>
-      {data.showCursor && <Cursor />}
+    <div className="portfolio" id="top">
       <Head>
-        <title>{data.name}</title>
+        <title>{data.name} — Portfolio</title>
+        <meta
+          name="description"
+          content={`${data.name} — portfolio, selected work, and experience.`}
+        />
+        <meta name="theme-color" content="#f7f6f0" />
       </Head>
 
-      <div className="gradient-circle"></div>
-      <div className="gradient-circle-bottom"></div>
-
-      <div className="container mx-auto mb-10">
-        <Header
-          handleWorkScroll={handleWorkScroll}
-          handleAboutScroll={handleAboutScroll}
-        />
-        <div className="laptop:mt-20 mt-10">
-          <div className="mt-5">
-            <h1
-              ref={textOne}
-              className="text-3xl tablet:text-6xl laptop:text-6xl laptopl:text-8xl p-1 tablet:p-2 text-bold w-4/5 mob:w-full laptop:w-4/5"
-            >
-              {data.headerTaglineOne}
-            </h1>
-            <h1
-              ref={textTwo}
-              className="text-3xl tablet:text-6xl laptop:text-6xl laptopl:text-8xl p-1 tablet:p-2 text-bold w-full laptop:w-4/5"
-            >
-              {data.headerTaglineTwo}
-            </h1>
-            <h1
-              ref={textThree}
-              className="text-3xl tablet:text-6xl laptop:text-6xl laptopl:text-8xl p-1 tablet:p-2 text-bold w-full laptop:w-4/5"
-            >
-              {data.headerTaglineThree}
-            </h1>
-            <h1
-              ref={textFour}
-              className="text-3xl tablet:text-6xl laptop:text-6xl laptopl:text-8xl p-1 tablet:p-2 text-bold w-full laptop:w-4/5"
-            >
-              {data.headerTaglineFour}
-            </h1>
-          </div>
-
-          <Socials className="mt-2 laptop:mt-5" />
+      <header className="site-header">
+        <a className="brand-mark" href="#top" aria-label={`${data.name}, top`}>
+          {initials}
+        </a>
+        <nav className="desktop-nav" aria-label="Main navigation">
+          {navigation.map(([label, id]) => (
+            <a key={id} href={`#${id}`}>
+              {label}
+            </a>
+          ))}
+        </nav>
+        <div className="header-actions">
+          <button
+            className="theme-toggle"
+            type="button"
+            aria-label={`Switch to ${mounted && theme === "dark" ? "light" : "dark"} mode`}
+            title={`Switch to ${mounted && theme === "dark" ? "light" : "dark"} mode`}
+            onClick={() =>
+              mounted && setTheme(theme === "dark" ? "light" : "dark")
+            }
+          >
+            {mounted && theme === "dark" ? "☼" : "☾"}
+          </button>
+          <button
+            className="resume-link"
+            type="button"
+            onClick={openResume}
+          >
+            Résumé <span aria-hidden="true">↗</span>
+          </button>
         </div>
-        <div className="mt-10 laptop:mt-30 p-2 laptop:p-0" ref={workRef}>
-          <h1 className="text-2xl text-bold">Work.</h1>
+      </header>
 
-          <div className="mt-5 laptop:mt-10 grid grid-cols-1 tablet:grid-cols-2 gap-4">
-            {data.projects.map((project) => (
-              <WorkCard
-                key={project.id}
-                img={project.imageSrc}
-                name={project.title}
-                description={project.description}
-                onClick={() => window.open(project.url)}
-              />
-            ))}
+      <main>
+        <section
+          className="hero section-shell"
+          aria-labelledby="hero-title"
+          data-reveal
+        >
+          <div className="hero-kicker">
+            <span>{data.headerTaglineOne || "Hello"}</span>
+            <span className="kicker-rule" />
+            <span>PORTFOLIO · 2026</span>
           </div>
-        </div>
-
-        <div className="mt-10 laptop:mt-30 p-2 laptop:p-0">
-          <h1 className="tablet:m-10 text-2xl text-bold">Services.</h1>
-          <div className="mt-5 tablet:m-10 grid grid-cols-1 laptop:grid-cols-2 gap-6">
-            {data.services.map((service, index) => (
-              <ServiceCard
-                key={index}
-                name={service.title}
-                description={service.description}
-              />
-            ))}
-          </div>
-        </div>
-        {/* This button should not go into production */}
-        {process.env.NODE_ENV === "development" && (
-          <div className="fixed bottom-5 right-5">
-            <Link href="/edit">
-              <Button type="primary">Edit Data</Button>
-            </Link>
-          </div>
-        )}
-        <div className="mt-10 laptop:mt-40 p-2 laptop:p-0" ref={aboutRef}>
-          <h1 className="tablet:m-10 text-2xl text-bold">About.</h1>
-          <p className="tablet:m-10 mt-2 text-xl laptop:text-3xl w-full laptop:w-3/5">
-            {data.aboutpara}
+          <h1 id="hero-title" className="hero-name">
+            {data.name}
+          </h1>
+          <p className="hero-intro">
+            {[
+              data.headerTaglineTwo,
+              data.headerTaglineThree,
+              data.headerTaglineFour,
+            ]
+              .filter(Boolean)
+              .join(" ")}
           </p>
+          <div className="hero-actions">
+            <a className="pill-link pill-primary" href="#work">
+              See the work <span aria-hidden="true">→</span>
+            </a>
+            <a className="hero-note" href="#about">
+              <span className="status-dot" />
+              A little more about me <span className="note-arrow">↗</span>
+            </a>
+          </div>
+          <div className="hero-bottomline">
+            <span>SCROLL TO EXPLORE</span>
+            <span aria-hidden="true">↓</span>
+          </div>
+        </section>
+
+        <section className="content-section section-shell" id="about" data-reveal>
+          <div className="section-heading">
+            <span className="section-index">01 / ABOUT</span>
+            <h2>A bit about me.</h2>
+          </div>
+          <div className="about-layout">
+            <div className="about-copy">
+              <p>{data.aboutpara}</p>
+              <a className="text-link" href="#contact">
+                Get in touch <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+            <div
+              className="about-image-slot"
+              role="img"
+              aria-label="Profile image placeholder"
+            />
+          </div>
+        </section>
+
+        <section className="content-section section-shell" id="skills" data-reveal>
+          <div className="section-heading">
+            <span className="section-index">02 / SKILLS</span>
+            <h2>Things I work with.</h2>
+          </div>
+          <div className="skills-list">
+            {skills.length ? (
+              skills.map((skill, index) => (
+                <span className="skill-chip" key={`${skill}-${index}`}>
+                  <span className="skill-number">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  {skill}
+                </span>
+              ))
+            ) : (
+              <p className="empty-note">Skills will be added soon.</p>
+            )}
+          </div>
+        </section>
+
+        <section
+          className="content-section section-shell"
+          id="experience"
+          data-reveal
+        >
+          <div className="section-heading">
+            <span className="section-index">03 / EXPERIENCE</span>
+            <h2>Where I&apos;ve been.</h2>
+          </div>
+          <div className="experience-list">
+            {(data.resume?.experiences || []).map((experience) => (
+              <article className="experience-item" key={experience.id}>
+                <div className="experience-date">
+                  <span>{experience.dates}</span>
+                  <span>{experience.type}</span>
+                </div>
+                <div className="experience-detail">
+                  <h3>{experience.position}</h3>
+                  <ul>
+                    {getBullets(experience.bullets).map((bullet, index) => (
+                      <li key={`${experience.id}-${index}`}>{bullet}</li>
+                    ))}
+                  </ul>
+                </div>
+                <span className="experience-arrow" aria-hidden="true">
+                  ↗
+                </span>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="content-section section-shell" id="work" data-reveal>
+          <div className="section-heading work-heading">
+            <div>
+              <span className="section-index">04 / SELECTED WORK</span>
+              <h2>Some things I&apos;ve made.</h2>
+            </div>
+            <span className="work-count">
+              {(data.projects || []).length.toString().padStart(2, "0")} PROJECTS
+            </span>
+          </div>
+          <div className="project-grid">
+            {(data.projects || []).map((project, index) => (
+              <a
+                className="project-card"
+                data-reveal
+                data-reveal-delay={index % 2}
+                href={project.url || "#work"}
+                key={project.id}
+                target={project.url ? "_blank" : undefined}
+                rel={project.url ? "noreferrer" : undefined}
+              >
+                <div className="project-image">
+                  {project.imageSrc ? (
+                    <img src={project.imageSrc} alt="" loading="lazy" />
+                  ) : (
+                    <div className="project-image-placeholder" />
+                  )}
+                  <span className="project-open" aria-hidden="true">
+                    ↗
+                  </span>
+                </div>
+                <div className="project-caption">
+                  <span className="project-index">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <h3>{project.title || "Project"}</h3>
+                    <p>{project.description}</p>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+          <div
+            className="work-certificates"
+            aria-labelledby="work-certificates-title"
+          >
+            <div className="certificates-heading">
+              <div>
+                <span className="section-index">CERTIFICATES</span>
+                <h3 id="work-certificates-title">Learning, documented.</h3>
+              </div>
+              <span className="work-count">
+                {String(certificates.length || 3).padStart(2, "0")} SLOTS
+              </span>
+            </div>
+            <div className="certificate-grid">
+              {(certificates.length
+                ? certificates
+                : Array.from({ length: 3 }, (_, index) => ({
+                    id: `placeholder-${index}`,
+                  }))
+              ).map((certificate, index) => (
+                <article
+                  className="certificate-card"
+                  data-reveal
+                  data-reveal-delay={index % 2}
+                  key={certificate.id || index}
+                >
+                  <div
+                    className="certificate-image-slot"
+                    role={certificate.imageSrc ? undefined : "img"}
+                    aria-label={
+                      certificate.imageSrc
+                        ? undefined
+                        : `${certificate.title || "Certificate"} image placeholder`
+                    }
+                  >
+                    {certificate.imageSrc && (
+                      <img
+                        src={certificate.imageSrc}
+                        alt={certificate.title || "Certificate"}
+                        loading="lazy"
+                      />
+                    )}
+                  </div>
+                  <h3>{certificate.title || "Certificate title"}</h3>
+                  <p>
+                    {[certificate.issuer, certificate.date]
+                      .filter(Boolean)
+                      .join(" · ") || "Add issuer and date"}
+                  </p>
+                </article>
+              ))}
+            </div>
+            {!certificates.length && (
+              <p className="certificate-help">
+                Add certificate details and image paths in{" "}
+                <code>data/certificates.json</code>.
+              </p>
+            )}
+          </div>
+        </section>
+
+        <section
+          className="contact-section section-shell"
+          id="contact"
+          data-reveal
+        >
+          <span className="section-index">05 / CONTACT</span>
+          <p className="contact-eyebrow">HAVE A GOOD ONE IN MIND?</p>
+          <h2>Let&apos;s make<br />something matter.</h2>
+          <button
+            className="pill-link pill-primary contact-link"
+            type="button"
+            onClick={openResume}
+          >
+            View résumé <span aria-hidden="true">↗</span>
+          </button>
+          <div className="contact-bottom">
+            <span>{data.name}</span>
+            <div className="social-links">
+              {data.socials.map((social) => (
+                <a
+                  href={social.link}
+                  key={social.id}
+                  target={
+                    social.link.startsWith("mailto:") ? undefined : "_blank"
+                  }
+                  rel="noreferrer"
+                >
+                  {social.title.toLowerCase() === "email"
+                    ? "Gmail"
+                    : social.title.toLowerCase() === "github"
+                    ? "GitHub"
+                    : social.title}{" "}
+                  <span aria-hidden="true">↗</span>
+                </a>
+              ))}
+            </div>
+            <a href="#top">BACK TO TOP ↑</a>
+          </div>
+        </section>
+      </main>
+      {resumeOpen && (
+        <div
+          className="resume-modal-backdrop"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setResumeOpen(false);
+          }}
+        >
+          <section
+            className="resume-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="resume-modal-title"
+          >
+            <div className="resume-modal-header">
+              <h2 id="resume-modal-title">Résumé</h2>
+              <div className="resume-modal-actions">
+                <a href="/resume" target="_blank" rel="noreferrer">
+                  Open full page
+                </a>
+                <button
+                  type="button"
+                  disabled={!resumeLoaded}
+                  onClick={() =>
+                    document
+                      .getElementById("resume-preview")
+                      ?.contentWindow?.print()
+                  }
+                >
+                  Download / Save as PDF
+                </button>
+                <button
+                  className="resume-modal-close"
+                  type="button"
+                  aria-label="Close résumé"
+                  onClick={() => setResumeOpen(false)}
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+            <iframe
+              id="resume-preview"
+              className="resume-preview"
+              src="/resume"
+              title={`${data.name} résumé`}
+              onLoad={() => setResumeLoaded(true)}
+            />
+          </section>
         </div>
-        <Footer />
-      </div>
+      )}
     </div>
   );
 }

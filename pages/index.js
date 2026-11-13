@@ -7,7 +7,6 @@ import data from "../data/portfolio.json";
 const navigation = [
   ["About", "about"],
   ["Skills", "skills"],
-  ["Experience", "experience"],
   ["Work", "work"],
   ["Contact", "contact"],
 ];
@@ -32,14 +31,6 @@ function getSkillGroups(resume) {
   ].filter((group) => group.items.length > 0);
 }
 
-function getBullets(bullets) {
-  if (Array.isArray(bullets)) return bullets;
-  if (typeof bullets === "string") {
-    return bullets.split(",").map((bullet) => bullet.trim()).filter(Boolean);
-  }
-  return [];
-}
-
 export default function Home() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -51,6 +42,10 @@ export default function Home() {
     []
   );
   const socialLinks = data.socials || [];
+  const footerSocialLinks = socialLinks.filter(
+    ({ title = "" }) => !["linkedin", "blog"].includes(title.toLowerCase())
+  );
+  const selectedProjects = (data.projects || []).slice(0, 3);
   const emailLink = socialLinks.find((social) =>
     social.link.startsWith("mailto:")
   );
@@ -119,7 +114,7 @@ export default function Home() {
         <title>{data.name} — Portfolio</title>
         <meta
           name="description"
-          content={`${data.name} — portfolio, selected work, and experience.`}
+          content={`${data.name} — portfolio and selected work.`}
         />
         <meta name="theme-color" content="#f7f6f0" />
       </Head>
@@ -357,101 +352,26 @@ export default function Home() {
 
         <section
           className="section-shell scroll-mt-[78px] border-t border-[var(--line)] py-[clamp(88px,12vw,160px)]"
-          id="experience"
-          data-reveal
-        >
-          <div className="mb-16 grid gap-5 tablet:mb-20 tablet:grid-cols-[minmax(160px,0.36fr)_1fr]">
-            <span className="pt-1 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
-              03 / EXPERIENCE
-            </span>
-            <div>
-              <h2 className="max-w-[690px] font-display text-4xl font-medium leading-[0.98] tracking-[-0.075em] tablet:text-6xl">
-                A path built by curiosity.
-              </h2>
-              <p className="mt-4 max-w-xl text-sm leading-6 text-[var(--muted)] tablet:text-base">
-                A few of the roles and projects that have shaped how I work.
-              </p>
-            </div>
-          </div>
-          <div className="grid gap-5 tablet:gap-6">
-            {(data.resume?.experiences || []).length ? (
-              data.resume.experiences.map((experience, index) => (
-                <article
-                  className="group grid gap-8 rounded-[1.75rem] border border-[var(--line)] bg-[var(--paper)] p-7 transition-all duration-300 hover:border-[var(--accent)] hover:shadow-[0_14px_35px_rgba(23,23,23,0.07)] tablet:grid-cols-[220px_minmax(0,1fr)] tablet:gap-10 tablet:p-10 desktop:grid-cols-[260px_minmax(0,1fr)] desktop:p-12"
-                  data-reveal
-                  data-reveal-delay={index % 2}
-                  key={experience.id}
-                >
-                  <div className="flex flex-wrap items-center justify-between gap-3 tablet:flex-col tablet:items-start">
-                    <span className="rounded-full bg-[var(--accent)] px-3 py-2 text-xs font-bold text-[#171717]">
-                      {experience.dates}
-                    </span>
-                    <span className="text-xs font-semibold uppercase tracking-[0.1em] text-[var(--muted)]">
-                      {experience.type}
-                    </span>
-                  </div>
-                  <div>
-                    <div className="flex items-start justify-between gap-4">
-                      <h3 className="font-display text-xl font-semibold tracking-[-0.04em] text-[var(--ink)] tablet:text-2xl">
-                        {experience.position}
-                      </h3>
-                      <span
-                        className="text-lg text-[var(--muted)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
-                        aria-hidden="true"
-                      >
-                        ↗
-                      </span>
-                    </div>
-                    <ul className="mt-6 max-w-3xl space-y-3 text-sm leading-7 text-[var(--muted)] tablet:text-base tablet:leading-8">
-                      {getBullets(experience.bullets).map((bullet, bulletIndex) => (
-                        <li
-                          className="flex gap-3"
-                          key={`${experience.id}-${bulletIndex}`}
-                        >
-                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--accent)]" />
-                          {bullet}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </article>
-              ))
-            ) : (
-              <p className="rounded-2xl border border-dashed border-[var(--line)] p-6 text-sm text-[var(--muted)]">
-                Experience details will be added soon.
-              </p>
-            )}
-          </div>
-        </section>
-
-        <section
-          className="section-shell scroll-mt-[78px] border-t border-[var(--line)] py-[clamp(88px,12vw,160px)]"
           id="work"
           data-reveal
         >
           <div className="mb-16 flex flex-wrap items-end justify-between gap-6 tablet:mb-20">
             <div>
               <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
-                04 / SELECTED WORK
+                03 / SELECTED WORK
               </p>
               <h2 className="max-w-2xl font-display text-4xl font-medium leading-[0.98] tracking-[-0.075em] tablet:text-6xl">
                 A few things I&apos;ve made.
               </h2>
             </div>
             <span className="rounded-full border border-[var(--line)] px-4 py-2 text-xs font-bold uppercase tracking-[0.1em] text-[var(--muted)]">
-              {String((data.projects || []).length).padStart(2, "0")} projects
+              {String(selectedProjects.length).padStart(2, "0")} projects
             </span>
           </div>
-          <div className="grid gap-7 tablet:grid-cols-2 tablet:gap-8">
-            {(data.projects || []).map((project, index) => {
-              const featured = index === 0;
-              return (
+          <div className="grid gap-6 tablet:grid-cols-2 desktop:grid-cols-3">
+            {selectedProjects.map((project, index) => (
                 <a
-                  className={`group overflow-hidden rounded-[1.75rem] border border-[var(--line)] bg-[var(--paper)] !text-[var(--ink)] transition-all duration-300 hover:border-[var(--accent)] hover:shadow-[0_18px_45px_rgba(23,23,23,0.1)] ${
-                    featured
-                      ? "tablet:col-span-2 tablet:grid tablet:grid-cols-[1.15fr_0.85fr]"
-                      : ""
-                  }`}
+                  className="group overflow-hidden rounded-[1.5rem] border border-[var(--line)] bg-[var(--paper)] !text-[var(--ink)] transition-all duration-300 hover:border-[var(--accent)] hover:shadow-[0_18px_45px_rgba(23,23,23,0.1)]"
                   data-reveal
                   data-reveal-delay={index % 2}
                   href={project.url || "#work"}
@@ -459,13 +379,7 @@ export default function Home() {
                   target={project.url ? "_blank" : undefined}
                   rel={project.url ? "noreferrer" : undefined}
                 >
-                  <div
-                    className={`relative overflow-hidden bg-[#e8e5d9] ${
-                      featured
-                        ? "aspect-[16/10] tablet:aspect-auto tablet:min-h-[420px]"
-                        : "aspect-[4/3]"
-                    }`}
-                  >
+                  <div className="relative aspect-[4/3] overflow-hidden bg-[#e8e5d9]">
                     {project.imageSrc ? (
                       <img
                         className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
@@ -483,7 +397,7 @@ export default function Home() {
                       ↗
                     </span>
                   </div>
-                  <div className="flex flex-col justify-between gap-10 p-7 tablet:p-10 desktop:p-12">
+                  <div className="flex flex-col justify-between gap-6 p-5 tablet:p-6">
                     <div>
                       <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--muted)]">
                         {project.description || "Selected work"}
@@ -498,8 +412,7 @@ export default function Home() {
                     </span>
                   </div>
                 </a>
-              );
-            })}
+            ))}
           </div>
 
           <div className="mt-[clamp(88px,11vw,140px)] border-t border-[var(--line)] pt-10 tablet:pt-12">
@@ -591,13 +504,13 @@ export default function Home() {
           id="contact"
           data-reveal
         >
-          <div className="rounded-[2rem] border border-[#171717]/10 bg-[var(--accent)] p-8 text-[#171717] tablet:p-12 desktop:p-16">
+          <div className="mx-auto max-w-4xl rounded-[1.5rem] border border-[#171717]/10 bg-[var(--accent)] p-6 text-[#171717] tablet:p-8 desktop:p-10">
             <p className="text-[11px] font-bold uppercase tracking-[0.16em]">
-              05 / LET&apos;S CONNECT
+              04 / LET&apos;S CONNECT
             </p>
-            <div className="mt-8 grid gap-8 tablet:grid-cols-[1fr_auto] tablet:items-end">
+            <div className="mt-6 grid gap-6 desktop:grid-cols-[1fr_auto] desktop:items-end">
               <div>
-                <h2 className="max-w-3xl font-display text-[clamp(2.5rem,6.4vw,5.75rem)] font-semibold leading-[0.95] tracking-[-0.08em]">
+                <h2 className="max-w-2xl font-display text-[clamp(2.25rem,5vw,4.5rem)] font-semibold leading-[0.95] tracking-[-0.08em]">
                   Have a good one in mind?
                   <br />
                   Let&apos;s make it matter.
@@ -607,7 +520,7 @@ export default function Home() {
                   accessible experiences, and creative ideas.
                 </p>
               </div>
-              <div className="flex flex-wrap gap-3 tablet:justify-end">
+              <div className="flex flex-wrap gap-3 desktop:justify-end">
                 {emailLink && (
                   <a
                     className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full border-2 border-[#171717] bg-[#171717] px-5 text-sm font-bold !text-white transition-transform duration-200 hover:-translate-y-0.5"
@@ -629,7 +542,7 @@ export default function Home() {
           <footer className="mt-8 flex flex-col gap-6 border-t border-[var(--line)] pt-6 text-xs font-bold uppercase tracking-[0.09em] text-[var(--muted)] tablet:flex-row tablet:items-center tablet:justify-between">
             <span>© {new Date().getFullYear()} {data.name}</span>
             <nav className="flex flex-wrap gap-x-5 gap-y-3" aria-label="Social links">
-              {socialLinks.map((social) => (
+              {footerSocialLinks.map((social) => (
                 <a
                   className="transition-colors hover:!text-[var(--ink)]"
                   href={social.link}

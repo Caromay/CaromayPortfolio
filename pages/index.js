@@ -238,11 +238,11 @@ export default function Home() {
         </section>
 
         <section
-          className="section-shell scroll-mt-[78px] border-t border-[var(--line)] py-[clamp(72px,10vw,128px)]"
+          className="section-shell scroll-mt-[78px] border-t border-[var(--line)] py-[clamp(88px,12vw,160px)]"
           id="about"
           data-reveal
         >
-          <div className="mb-12 grid gap-5 tablet:grid-cols-[minmax(160px,0.36fr)_1fr]">
+          <div className="mb-16 grid gap-5 tablet:mb-20 tablet:grid-cols-[minmax(160px,0.36fr)_1fr]">
             <span className="pt-1 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
               01 / ABOUT
             </span>
@@ -250,12 +250,12 @@ export default function Home() {
               A bit about me.
             </h2>
           </div>
-          <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-[minmax(0,1.3fr)_minmax(250px,0.7fr)] desktop:ml-[min(36%,390px)]">
+          <div className="grid grid-cols-1 items-center gap-12 tablet:grid-cols-[minmax(0,1.25fr)_minmax(260px,0.75fr)] tablet:gap-16 desktop:gap-20">
             <div className="max-w-3xl">
-              <p className="max-w-[62ch] text-base leading-7 text-[var(--muted)] tablet:text-lg tablet:leading-8">
+              <p className="max-w-[65ch] text-base leading-8 text-[var(--muted)] tablet:text-lg tablet:leading-9">
                 {data.aboutpara}
               </p>
-              <div className="mt-7 flex flex-wrap items-center gap-5">
+              <div className="mt-9 flex flex-wrap items-center gap-6">
                 <a
                   className="inline-flex items-center gap-3 border-b border-[var(--ink)] pb-1 text-sm font-bold !text-[var(--ink)] transition-colors hover:border-[var(--accent)]"
                   href="#contact"
@@ -268,7 +268,7 @@ export default function Home() {
               </div>
             </div>
             <div
-              className="relative grid aspect-[4/5] min-h-[230px] w-full place-items-center overflow-hidden rounded-[1.75rem] border border-dashed border-[var(--line)] bg-[#ecebe4] tablet:min-h-[320px] dark:bg-[#22221d]"
+              className="relative grid aspect-[4/5] min-h-[260px] w-full place-items-center overflow-hidden rounded-[1.75rem] border border-dashed border-[var(--line)] bg-[#ecebe4] tablet:min-h-[420px] dark:bg-[#22221d]"
               role="img"
               aria-label="Photo placeholder. Add your picture here."
             >
@@ -356,11 +356,11 @@ export default function Home() {
         </section>
 
         <section
-          className="section-shell scroll-mt-[78px] border-t border-[var(--line)] py-[clamp(72px,10vw,128px)]"
+          className="section-shell scroll-mt-[78px] border-t border-[var(--line)] py-[clamp(88px,12vw,160px)]"
           id="experience"
           data-reveal
         >
-          <div className="mb-10 grid gap-5 tablet:grid-cols-[minmax(160px,0.36fr)_1fr]">
+          <div className="mb-16 grid gap-5 tablet:mb-20 tablet:grid-cols-[minmax(160px,0.36fr)_1fr]">
             <span className="pt-1 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
               03 / EXPERIENCE
             </span>
@@ -373,11 +373,11 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <div className="grid gap-4 tablet:ml-[min(36%,390px)]">
+          <div className="grid gap-5 tablet:gap-6">
             {(data.resume?.experiences || []).length ? (
               data.resume.experiences.map((experience, index) => (
                 <article
-                  className="group grid gap-6 rounded-[1.5rem] border border-[var(--line)] bg-[var(--paper)] p-6 transition-all duration-300 hover:border-[var(--accent)] hover:shadow-[0_14px_35px_rgba(23,23,23,0.07)] tablet:grid-cols-[190px_1fr] tablet:p-8"
+                  className="group grid gap-8 rounded-[1.75rem] border border-[var(--line)] bg-[var(--paper)] p-7 transition-all duration-300 hover:border-[var(--accent)] hover:shadow-[0_14px_35px_rgba(23,23,23,0.07)] tablet:grid-cols-[220px_minmax(0,1fr)] tablet:gap-10 tablet:p-10 desktop:grid-cols-[260px_minmax(0,1fr)] desktop:p-12"
                   data-reveal
                   data-reveal-delay={index % 2}
                   key={experience.id}
@@ -402,7 +402,7 @@ export default function Home() {
                         ↗
                       </span>
                     </div>
-                    <ul className="mt-4 space-y-2 text-sm leading-6 text-[var(--muted)]">
+                    <ul className="mt-6 max-w-3xl space-y-3 text-sm leading-7 text-[var(--muted)] tablet:text-base tablet:leading-8">
                       {getBullets(experience.bullets).map((bullet, bulletIndex) => (
                         <li
                           className="flex gap-3"
@@ -425,11 +425,11 @@ export default function Home() {
         </section>
 
         <section
-          className="section-shell scroll-mt-[78px] border-t border-[var(--line)] py-[clamp(72px,10vw,128px)]"
+          className="section-shell scroll-mt-[78px] border-t border-[var(--line)] py-[clamp(88px,12vw,160px)]"
           id="work"
           data-reveal
         >
-          <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
+          <div className="mb-16 flex flex-wrap items-end justify-between gap-6 tablet:mb-20">
             <div>
               <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
                 04 / SELECTED WORK
@@ -442,14 +442,14 @@ export default function Home() {
               {String((data.projects || []).length).padStart(2, "0")} projects
             </span>
           </div>
-          <div className="grid gap-5 tablet:grid-cols-2">
+          <div className="grid gap-7 tablet:grid-cols-2 tablet:gap-8">
             {(data.projects || []).map((project, index) => {
               const featured = index === 0;
               return (
                 <a
                   className={`group overflow-hidden rounded-[1.75rem] border border-[var(--line)] bg-[var(--paper)] !text-[var(--ink)] transition-all duration-300 hover:border-[var(--accent)] hover:shadow-[0_18px_45px_rgba(23,23,23,0.1)] ${
                     featured
-                      ? "tablet:col-span-2 tablet:grid tablet:grid-cols-[1.25fr_0.75fr]"
+                      ? "tablet:col-span-2 tablet:grid tablet:grid-cols-[1.15fr_0.85fr]"
                       : ""
                   }`}
                   data-reveal
@@ -462,7 +462,7 @@ export default function Home() {
                   <div
                     className={`relative overflow-hidden bg-[#e8e5d9] ${
                       featured
-                        ? "aspect-[16/10] tablet:aspect-auto tablet:min-h-[360px]"
+                        ? "aspect-[16/10] tablet:aspect-auto tablet:min-h-[420px]"
                         : "aspect-[4/3]"
                     }`}
                   >
@@ -483,7 +483,7 @@ export default function Home() {
                       ↗
                     </span>
                   </div>
-                  <div className="flex flex-col justify-between gap-8 p-6 tablet:p-8">
+                  <div className="flex flex-col justify-between gap-10 p-7 tablet:p-10 desktop:p-12">
                     <div>
                       <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--muted)]">
                         {project.description || "Selected work"}
@@ -502,8 +502,8 @@ export default function Home() {
             })}
           </div>
 
-          <div className="mt-[clamp(70px,9vw,110px)] border-t border-[var(--line)] pt-8">
-            <div className="mb-6 flex flex-wrap items-end justify-between gap-5">
+          <div className="mt-[clamp(88px,11vw,140px)] border-t border-[var(--line)] pt-10 tablet:pt-12">
+            <div className="mb-8 flex flex-wrap items-end justify-between gap-5">
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
                   LEARNING, DOCUMENTED
@@ -591,13 +591,13 @@ export default function Home() {
           id="contact"
           data-reveal
         >
-          <div className="rounded-[2rem] border border-[#171717]/10 bg-[var(--accent)] p-7 text-[#171717] tablet:p-12">
+          <div className="rounded-[2rem] border border-[#171717]/10 bg-[var(--accent)] p-8 text-[#171717] tablet:p-12 desktop:p-16">
             <p className="text-[11px] font-bold uppercase tracking-[0.16em]">
               05 / LET&apos;S CONNECT
             </p>
             <div className="mt-8 grid gap-8 tablet:grid-cols-[1fr_auto] tablet:items-end">
               <div>
-                <h2 className="max-w-4xl font-display text-[clamp(3rem,9vw,7.5rem)] font-semibold leading-[0.9] tracking-[-0.09em]">
+                <h2 className="max-w-3xl font-display text-[clamp(2.5rem,6.4vw,5.75rem)] font-semibold leading-[0.95] tracking-[-0.08em]">
                   Have a good one in mind?
                   <br />
                   Let&apos;s make it matter.

@@ -6,10 +6,9 @@ import ProjectResume from "../components/ProjectResume";
 import Socials from "../components/Socials";
 import Button from "../components/Button";
 import { useTheme } from "next-themes";
-// Data
-import { name, showResume } from "../data/portfolio.json";
-import { resume } from "../data/portfolio.json";
 import data from "../data/portfolio.json";
+
+const { name, resume, showResume } = data;
 
 const Resume = () => {
   const router = useRouter();
@@ -21,11 +20,11 @@ const Resume = () => {
     if (!showResume) {
       router.push("/");
     }
-  }, []);
+  }, [router]);
   return (
     <>
       {process.env.NODE_ENV === "development" && (
-        <div className="resume-edit-button fixed bottom-6 right-6">
+        <div className="fixed bottom-6 right-6 print:hidden">
           <Button onClick={() => router.push("/edit")} type={"primary"}>
             Edit Resume
           </Button>
@@ -33,11 +32,11 @@ const Resume = () => {
       )}
       {data.showCursor && <Cursor />}
       <div
-        className={`resume-print-shell container mx-auto mb-10 ${
-          data.showCursor && "cursor-none"
+        className={`container mx-auto mb-10 print:m-0 print:w-full print:max-w-none print:p-0 ${
+          data.showCursor ? "cursor-none" : ""
         }`}
       >
-        <div className="resume-print-header">
+        <div className="print:hidden">
           <Header isBlog />
         </div>
         {mount && (
@@ -45,7 +44,7 @@ const Resume = () => {
             <div
               className={`w-full ${
                 mount && theme.theme === "dark" ? "bg-slate-800" : "bg-gray-50"
-              } resume-print-card max-w-4xl p-20 mob:p-5 desktop:p-20 rounded-lg shadow-sm`}
+              } max-w-4xl rounded-lg p-20 shadow-sm mob:p-5 desktop:p-20 print:m-0 print:w-full print:max-w-none print:rounded-none print:bg-white print:p-0 print:text-[#171717] print:shadow-none`}
             >
               <h1 className="text-3xl font-bold">{name}</h1>
               <h2 className="text-xl mt-5">{resume.tagline}</h2>

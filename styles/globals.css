@@ -751,23 +751,6 @@ body {
     background: white !important;
     color: #171717 !important;
   }
-
-  .resume-print-header,
-  .resume-edit-button {
-    display: none !important;
-  }
-
-  .resume-print-shell,
-  .resume-print-card {
-    width: 100% !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border-radius: 0 !important;
-    background: white !important;
-    color: #171717 !important;
-    box-shadow: none !important;
-  }
 }
 
 @media (max-width: 1024px) {

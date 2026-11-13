@@ -180,18 +180,38 @@ export default function Home() {
             <span className="section-index">01 / ABOUT</span>
             <h2>A bit about me.</h2>
           </div>
-          <div className="about-layout">
-            <div className="about-copy">
-              <p>{data.aboutpara}</p>
-              <a className="text-link" href="#contact">
+          <div className="grid grid-cols-1 gap-[clamp(24px,5vw,70px)] tablet:grid-cols-[minmax(0,1.65fr)_minmax(220px,0.8fr)] desktop:ml-[min(36%,390px)]">
+            <div className="max-w-3xl">
+              <p className="max-w-[62ch] text-base leading-7 text-[#65645e] dark:text-[#b6b4aa]">
+                {data.aboutpara}
+              </p>
+              <a
+                className="mt-6 inline-flex items-center gap-3 border-b border-[#171717] pb-1 text-sm font-bold text-[#171717] dark:border-[#f5f3eb] dark:text-[#f5f3eb]"
+                href="#contact"
+              >
                 Get in touch <span aria-hidden="true">↗</span>
               </a>
             </div>
             <div
-              className="about-image-slot"
+              className="grid min-h-[230px] aspect-[4/5] w-full place-items-center overflow-hidden border border-dashed border-[#aaa99f] bg-[#ecebe4] tablet:min-h-[280px] dark:border-[#55554e] dark:bg-[#22221d]"
               role="img"
-              aria-label="Profile image placeholder"
-            />
+              aria-label="Photo placeholder. Add your picture here."
+            >
+              <div className="flex flex-col items-center gap-3 text-center">
+                <svg
+                  aria-hidden="true"
+                  className="h-28 w-28 text-[#b8b5a9] dark:text-[#55554e]"
+                  viewBox="0 0 120 120"
+                  fill="currentColor"
+                >
+                  <circle cx="60" cy="40" r="22" />
+                  <path d="M20 112c3-23 18-39 40-39s37 16 40 39H20Z" />
+                </svg>
+                <span className="text-xs font-bold uppercase tracking-[0.14em] text-[#65645e] dark:text-[#b6b4aa]">
+                  Your photo here
+                </span>
+              </div>
+            </div>
           </div>
         </section>
 

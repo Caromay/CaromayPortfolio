@@ -320,44 +320,6 @@ body {
   letter-spacing: -0.075em;
 }
 
-.about-copy {
-  max-width: 740px;
-}
-
-.about-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1.65fr) minmax(220px, 0.8fr);
-  align-items: stretch;
-  gap: clamp(24px, 5vw, 70px);
-  margin-left: min(36%, 390px);
-}
-
-.about-image-slot {
-  min-height: 280px;
-  border: 1px dashed var(--line);
-  background: rgba(128, 128, 128, 0.035);
-}
-
-.about-copy p {
-  margin: 0;
-  color: var(--muted);
-  font-size: clamp(18px, 2.2vw, 25px);
-  line-height: 1.6;
-}
-
-.text-link {
-  display: inline-block;
-  margin-top: 25px;
-  padding-bottom: 5px;
-  border-bottom: 1px solid var(--ink);
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.text-link span {
-  margin-left: 14px;
-}
-
 .skills-list {
   margin-left: min(36%, 390px);
   display: flex;
@@ -754,7 +716,6 @@ body {
 }
 
 @media (max-width: 1024px) {
-  .about-layout,
   .work-certificates {
     margin-left: 0;
   }
@@ -832,18 +793,9 @@ body {
     margin-top: 0;
   }
 
-  .about-layout,
   .skills-list,
   .experience-list {
     margin-left: 0;
-  }
-
-  .about-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .about-image-slot {
-    min-height: 230px;
   }
 
   .work-certificates {

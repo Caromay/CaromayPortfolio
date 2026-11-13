@@ -12,12 +12,24 @@ const navigation = [
   ["Contact", "contact"],
 ];
 
-function getSkills(resume) {
+function getSkillGroups(resume) {
   return [
-    ...(resume.languages || []),
-    ...(resume.frameworks || []),
-    ...(resume.others || []),
-  ];
+    {
+      title: "Languages",
+      description: "The foundations I build with.",
+      items: resume.languages || [],
+    },
+    {
+      title: "Frameworks",
+      description: "Tools for bringing ideas to life.",
+      items: resume.frameworks || [],
+    },
+    {
+      title: "Design & more",
+      description: "The creative side of my workflow.",
+      items: resume.others || [],
+    },
+  ].filter((group) => group.items.length > 0);
 }
 
 function getBullets(bullets) {
@@ -33,7 +45,15 @@ export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [resumeOpen, setResumeOpen] = useState(false);
   const [resumeLoaded, setResumeLoaded] = useState(false);
-  const skills = useMemo(() => getSkills(data.resume || {}), []);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const skillGroups = useMemo(
+    () => getSkillGroups(data.resume || {}),
+    []
+  );
+  const socialLinks = data.socials || [];
+  const emailLink = socialLinks.find((social) =>
+    social.link.startsWith("mailto:")
+  );
   const initials = (data.name || "Portfolio")
     .split(/\s+/)
     .map((part) => part[0])
@@ -115,6 +135,48 @@ export default function Home() {
             </a>
           ))}
         </nav>
+        <button
+          className="grid h-10 w-10 place-items-center rounded-full border border-[var(--line)] text-[var(--ink)] transition-colors hover:bg-[var(--accent)] tablet:hidden"
+          type="button"
+          aria-label={mobileMenuOpen ? "Close navigation" : "Open navigation"}
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-navigation"
+          onClick={() => setMobileMenuOpen((open) => !open)}
+        >
+          <svg
+            aria-hidden="true"
+            className="h-5 w-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+          >
+            {mobileMenuOpen ? (
+              <path d="m6 6 12 12M18 6 6 18" />
+            ) : (
+              <path d="M4 7h16M4 12h16M4 17h16" />
+            )}
+          </svg>
+        </button>
+        {mobileMenuOpen && (
+          <nav
+            id="mobile-navigation"
+            className="absolute left-4 right-4 top-[calc(100%+0.5rem)] z-30 grid gap-1 rounded-2xl border border-[var(--line)] bg-[var(--paper)] p-3 shadow-xl tablet:hidden"
+            aria-label="Mobile navigation"
+          >
+            {navigation.map(([label, id]) => (
+              <a
+                className="rounded-xl px-4 py-3 text-sm font-semibold !text-[var(--ink)] transition-colors hover:bg-[var(--accent)] hover:!text-[#171717]"
+                key={id}
+                href={`#${id}`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {label}
+              </a>
+            ))}
+          </nav>
+        )}
         <div className="header-actions">
           <button
             className="theme-toggle"
@@ -175,25 +237,38 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="content-section section-shell" id="about" data-reveal>
-          <div className="section-heading">
-            <span className="section-index">01 / ABOUT</span>
-            <h2>A bit about me.</h2>
+        <section
+          className="section-shell scroll-mt-[78px] border-t border-[var(--line)] py-[clamp(72px,10vw,128px)]"
+          id="about"
+          data-reveal
+        >
+          <div className="mb-12 grid gap-5 tablet:grid-cols-[minmax(160px,0.36fr)_1fr]">
+            <span className="pt-1 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
+              01 / ABOUT
+            </span>
+            <h2 className="max-w-[690px] font-display text-4xl font-medium leading-[0.98] tracking-[-0.075em] tablet:text-6xl">
+              A bit about me.
+            </h2>
           </div>
-          <div className="grid grid-cols-1 gap-[clamp(24px,5vw,70px)] tablet:grid-cols-[minmax(0,1.65fr)_minmax(220px,0.8fr)] desktop:ml-[min(36%,390px)]">
+          <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-[minmax(0,1.3fr)_minmax(250px,0.7fr)] desktop:ml-[min(36%,390px)]">
             <div className="max-w-3xl">
-              <p className="max-w-[62ch] text-base leading-7 text-[#65645e] dark:text-[#b6b4aa]">
+              <p className="max-w-[62ch] text-base leading-7 text-[var(--muted)] tablet:text-lg tablet:leading-8">
                 {data.aboutpara}
               </p>
-              <a
-                className="mt-6 inline-flex items-center gap-3 border-b border-[#171717] pb-1 text-sm font-bold text-[#171717] dark:border-[#f5f3eb] dark:text-[#f5f3eb]"
-                href="#contact"
-              >
-                Get in touch <span aria-hidden="true">↗</span>
-              </a>
+              <div className="mt-7 flex flex-wrap items-center gap-5">
+                <a
+                  className="inline-flex items-center gap-3 border-b border-[var(--ink)] pb-1 text-sm font-bold !text-[var(--ink)] transition-colors hover:border-[var(--accent)]"
+                  href="#contact"
+                >
+                  Let&apos;s connect <span aria-hidden="true">↗</span>
+                </a>
+                <span className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--muted)]">
+                  Based in Tapaz, Capiz
+                </span>
+              </div>
             </div>
             <div
-              className="grid min-h-[230px] aspect-[4/5] w-full place-items-center overflow-hidden border border-dashed border-[#aaa99f] bg-[#ecebe4] tablet:min-h-[280px] dark:border-[#55554e] dark:bg-[#22221d]"
+              className="relative grid aspect-[4/5] min-h-[230px] w-full place-items-center overflow-hidden rounded-[1.75rem] border border-dashed border-[var(--line)] bg-[#ecebe4] tablet:min-h-[320px] dark:bg-[#22221d]"
               role="img"
               aria-label="Photo placeholder. Add your picture here."
             >
@@ -211,120 +286,237 @@ export default function Home() {
                   Your photo here
                 </span>
               </div>
+              <span className="absolute right-4 top-4 rounded-full border border-[var(--line)] bg-[var(--paper)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--muted)]">
+                Profile
+              </span>
             </div>
           </div>
         </section>
 
-        <section className="content-section section-shell" id="skills" data-reveal>
-          <div className="section-heading">
-            <span className="section-index">02 / SKILLS</span>
-            <h2>Things I work with.</h2>
+        <section
+          className="section-shell scroll-mt-[78px] border-t border-[var(--line)] py-[clamp(72px,10vw,128px)]"
+          id="skills"
+          data-reveal
+        >
+          <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
+                02 / CAPABILITIES
+              </p>
+              <h2 className="max-w-2xl font-display text-4xl font-medium leading-[0.98] tracking-[-0.075em] tablet:text-6xl">
+                Tools for thoughtful experiences.
+              </h2>
+            </div>
+            <span className="rounded-full border border-[var(--line)] px-4 py-2 text-xs font-bold uppercase tracking-[0.1em] text-[var(--muted)]">
+              {skillGroups.reduce((total, group) => total + group.items.length, 0)}{" "}
+              skills
+            </span>
           </div>
-          <div className="skills-list">
-            {skills.length ? (
-              skills.map((skill, index) => (
-                <span className="skill-chip" key={`${skill}-${index}`}>
-                  <span className="skill-number">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  {skill}
-                </span>
+          {skillGroups.length ? (
+            <div className="grid gap-4 tablet:grid-cols-3">
+              {skillGroups.map((group, index) => (
+                <article
+                  className="rounded-[1.5rem] border border-[var(--line)] bg-[var(--paper)] p-6 transition-all duration-300 hover:border-[var(--accent)] hover:shadow-[0_14px_35px_rgba(23,23,23,0.08)] tablet:p-8"
+                  data-reveal
+                  data-reveal-delay={index % 2}
+                  key={group.title}
+                >
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="grid h-10 w-10 place-items-center rounded-full bg-[var(--accent)] text-sm font-bold text-[#171717]">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--muted)]">
+                      {String(group.items.length).padStart(2, "0")} items
+                    </span>
+                  </div>
+                  <h3 className="mt-8 font-display text-2xl font-semibold tracking-[-0.04em] text-[var(--ink)]">
+                    {group.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
+                    {group.description}
+                  </p>
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {group.items.map((skill) => (
+                      <span
+                        className="rounded-full border border-[var(--line)] px-3 py-2 text-xs font-semibold text-[var(--ink)]"
+                        key={skill}
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <p className="rounded-2xl border border-dashed border-[var(--line)] p-6 text-sm text-[var(--muted)]">
+              Skills will be added soon.
+            </p>
+          )}
+        </section>
+
+        <section
+          className="section-shell scroll-mt-[78px] border-t border-[var(--line)] py-[clamp(72px,10vw,128px)]"
+          id="experience"
+          data-reveal
+        >
+          <div className="mb-10 grid gap-5 tablet:grid-cols-[minmax(160px,0.36fr)_1fr]">
+            <span className="pt-1 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
+              03 / EXPERIENCE
+            </span>
+            <div>
+              <h2 className="max-w-[690px] font-display text-4xl font-medium leading-[0.98] tracking-[-0.075em] tablet:text-6xl">
+                A path built by curiosity.
+              </h2>
+              <p className="mt-4 max-w-xl text-sm leading-6 text-[var(--muted)] tablet:text-base">
+                A few of the roles and projects that have shaped how I work.
+              </p>
+            </div>
+          </div>
+          <div className="grid gap-4 tablet:ml-[min(36%,390px)]">
+            {(data.resume?.experiences || []).length ? (
+              data.resume.experiences.map((experience, index) => (
+                <article
+                  className="group grid gap-6 rounded-[1.5rem] border border-[var(--line)] bg-[var(--paper)] p-6 transition-all duration-300 hover:border-[var(--accent)] hover:shadow-[0_14px_35px_rgba(23,23,23,0.07)] tablet:grid-cols-[190px_1fr] tablet:p-8"
+                  data-reveal
+                  data-reveal-delay={index % 2}
+                  key={experience.id}
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-3 tablet:flex-col tablet:items-start">
+                    <span className="rounded-full bg-[var(--accent)] px-3 py-2 text-xs font-bold text-[#171717]">
+                      {experience.dates}
+                    </span>
+                    <span className="text-xs font-semibold uppercase tracking-[0.1em] text-[var(--muted)]">
+                      {experience.type}
+                    </span>
+                  </div>
+                  <div>
+                    <div className="flex items-start justify-between gap-4">
+                      <h3 className="font-display text-xl font-semibold tracking-[-0.04em] text-[var(--ink)] tablet:text-2xl">
+                        {experience.position}
+                      </h3>
+                      <span
+                        className="text-lg text-[var(--muted)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+                        aria-hidden="true"
+                      >
+                        ↗
+                      </span>
+                    </div>
+                    <ul className="mt-4 space-y-2 text-sm leading-6 text-[var(--muted)]">
+                      {getBullets(experience.bullets).map((bullet, bulletIndex) => (
+                        <li
+                          className="flex gap-3"
+                          key={`${experience.id}-${bulletIndex}`}
+                        >
+                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--accent)]" />
+                          {bullet}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
               ))
             ) : (
-              <p className="empty-note">Skills will be added soon.</p>
+              <p className="rounded-2xl border border-dashed border-[var(--line)] p-6 text-sm text-[var(--muted)]">
+                Experience details will be added soon.
+              </p>
             )}
           </div>
         </section>
 
         <section
-          className="content-section section-shell"
-          id="experience"
+          className="section-shell scroll-mt-[78px] border-t border-[var(--line)] py-[clamp(72px,10vw,128px)]"
+          id="work"
           data-reveal
         >
-          <div className="section-heading">
-            <span className="section-index">03 / EXPERIENCE</span>
-            <h2>Where I&apos;ve been.</h2>
-          </div>
-          <div className="experience-list">
-            {(data.resume?.experiences || []).map((experience) => (
-              <article className="experience-item" key={experience.id}>
-                <div className="experience-date">
-                  <span>{experience.dates}</span>
-                  <span>{experience.type}</span>
-                </div>
-                <div className="experience-detail">
-                  <h3>{experience.position}</h3>
-                  <ul>
-                    {getBullets(experience.bullets).map((bullet, index) => (
-                      <li key={`${experience.id}-${index}`}>{bullet}</li>
-                    ))}
-                  </ul>
-                </div>
-                <span className="experience-arrow" aria-hidden="true">
-                  ↗
-                </span>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="content-section section-shell" id="work" data-reveal>
-          <div className="section-heading work-heading">
+          <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
             <div>
-              <span className="section-index">04 / SELECTED WORK</span>
-              <h2>Some things I&apos;ve made.</h2>
+              <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
+                04 / SELECTED WORK
+              </p>
+              <h2 className="max-w-2xl font-display text-4xl font-medium leading-[0.98] tracking-[-0.075em] tablet:text-6xl">
+                A few things I&apos;ve made.
+              </h2>
             </div>
-            <span className="work-count">
-              {(data.projects || []).length.toString().padStart(2, "0")} PROJECTS
+            <span className="rounded-full border border-[var(--line)] px-4 py-2 text-xs font-bold uppercase tracking-[0.1em] text-[var(--muted)]">
+              {String((data.projects || []).length).padStart(2, "0")} projects
             </span>
           </div>
-          <div className="project-grid">
-            {(data.projects || []).map((project, index) => (
-              <a
-                className="project-card"
-                data-reveal
-                data-reveal-delay={index % 2}
-                href={project.url || "#work"}
-                key={project.id}
-                target={project.url ? "_blank" : undefined}
-                rel={project.url ? "noreferrer" : undefined}
-              >
-                <div className="project-image">
-                  {project.imageSrc ? (
-                    <img src={project.imageSrc} alt="" loading="lazy" />
-                  ) : (
-                    <div className="project-image-placeholder" />
-                  )}
-                  <span className="project-open" aria-hidden="true">
-                    ↗
-                  </span>
-                </div>
-                <div className="project-caption">
-                  <span className="project-index">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <div>
-                    <h3>{project.title || "Project"}</h3>
-                    <p>{project.description}</p>
+          <div className="grid gap-5 tablet:grid-cols-2">
+            {(data.projects || []).map((project, index) => {
+              const featured = index === 0;
+              return (
+                <a
+                  className={`group overflow-hidden rounded-[1.75rem] border border-[var(--line)] bg-[var(--paper)] !text-[var(--ink)] transition-all duration-300 hover:border-[var(--accent)] hover:shadow-[0_18px_45px_rgba(23,23,23,0.1)] ${
+                    featured
+                      ? "tablet:col-span-2 tablet:grid tablet:grid-cols-[1.25fr_0.75fr]"
+                      : ""
+                  }`}
+                  data-reveal
+                  data-reveal-delay={index % 2}
+                  href={project.url || "#work"}
+                  key={project.id}
+                  target={project.url ? "_blank" : undefined}
+                  rel={project.url ? "noreferrer" : undefined}
+                >
+                  <div
+                    className={`relative overflow-hidden bg-[#e8e5d9] ${
+                      featured
+                        ? "aspect-[16/10] tablet:aspect-auto tablet:min-h-[360px]"
+                        : "aspect-[4/3]"
+                    }`}
+                  >
+                    {project.imageSrc ? (
+                      <img
+                        className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                        src={project.imageSrc}
+                        alt={project.title || "Project preview"}
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="h-full w-full bg-[linear-gradient(135deg,#f4c900,#eacac1_55%,#a9ada0)]" />
+                    )}
+                    <span className="absolute left-4 top-4 rounded-full bg-[var(--paper)] px-3 py-2 text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--ink)]">
+                      Project {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-[var(--paper)] text-lg text-[var(--ink)] transition-transform duration-300 group-hover:rotate-45">
+                      ↗
+                    </span>
                   </div>
-                </div>
-              </a>
-            ))}
+                  <div className="flex flex-col justify-between gap-8 p-6 tablet:p-8">
+                    <div>
+                      <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--muted)]">
+                        {project.description || "Selected work"}
+                      </p>
+                      <h3 className="mt-3 font-display text-2xl font-semibold tracking-[-0.05em] tablet:text-3xl">
+                        {project.title || "Project"}
+                      </h3>
+                    </div>
+                    <span className="inline-flex items-center gap-2 text-sm font-bold">
+                      View project
+                      <span aria-hidden="true">→</span>
+                    </span>
+                  </div>
+                </a>
+              );
+            })}
           </div>
-          <div
-            className="work-certificates"
-            aria-labelledby="work-certificates-title"
-          >
-            <div className="certificates-heading">
+
+          <div className="mt-[clamp(70px,9vw,110px)] border-t border-[var(--line)] pt-8">
+            <div className="mb-6 flex flex-wrap items-end justify-between gap-5">
               <div>
-                <span className="section-index">CERTIFICATES</span>
-                <h3 id="work-certificates-title">Learning, documented.</h3>
+                <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
+                  LEARNING, DOCUMENTED
+                </p>
+                <h3 className="mt-3 font-display text-3xl font-semibold tracking-[-0.06em] text-[var(--ink)] tablet:text-4xl">
+                  Certificates & milestones.
+                </h3>
               </div>
-              <span className="work-count">
-                {String(certificates.length || 3).padStart(2, "0")} SLOTS
+              <span className="text-xs font-bold uppercase tracking-[0.1em] text-[var(--muted)]">
+                {String(certificates.length || 3).padStart(2, "0")} entries
               </span>
             </div>
-            <div className="certificate-grid">
+            <div className="grid gap-4 tablet:grid-cols-3">
               {(certificates.length
                 ? certificates
                 : Array.from({ length: 3 }, (_, index) => ({
@@ -332,66 +524,114 @@ export default function Home() {
                   }))
               ).map((certificate, index) => (
                 <article
-                  className="certificate-card"
+                  className="overflow-hidden rounded-[1.5rem] border border-[var(--line)] bg-[var(--paper)] transition-all duration-300 hover:border-[var(--accent)] hover:shadow-lg"
                   data-reveal
                   data-reveal-delay={index % 2}
                   key={certificate.id || index}
                 >
-                  <div
-                    className="certificate-image-slot"
-                    role={certificate.imageSrc ? undefined : "img"}
-                    aria-label={
-                      certificate.imageSrc
-                        ? undefined
-                        : `${certificate.title || "Certificate"} image placeholder`
-                    }
-                  >
-                    {certificate.imageSrc && (
+                  <div className="relative grid aspect-[1.42] place-items-center overflow-hidden bg-[#eeede7] dark:bg-[#22221d]">
+                    {certificate.imageSrc ? (
                       <img
+                        className="h-full w-full object-cover"
                         src={certificate.imageSrc}
                         alt={certificate.title || "Certificate"}
                         loading="lazy"
                       />
+                    ) : (
+                      <div
+                        className="flex flex-col items-center gap-3 text-center text-[var(--muted)]"
+                        role="img"
+                        aria-label={`${certificate.title || "Certificate"} image placeholder`}
+                      >
+                        <svg
+                          className="h-12 w-12"
+                          aria-hidden="true"
+                          viewBox="0 0 48 48"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                        >
+                          <rect x="8" y="6" width="32" height="36" rx="3" />
+                          <path d="M15 16h18M15 22h18M15 28h10" />
+                          <circle cx="33" cy="34" r="5" fill="var(--accent)" />
+                        </svg>
+                        <span className="text-[10px] font-bold uppercase tracking-[0.14em]">
+                          Add certificate image
+                        </span>
+                      </div>
                     )}
                   </div>
-                  <h3>{certificate.title || "Certificate title"}</h3>
-                  <p>
-                    {[certificate.issuer, certificate.date]
-                      .filter(Boolean)
-                      .join(" · ") || "Add issuer and date"}
-                  </p>
+                  <div className="p-5">
+                    <h4 className="font-display text-lg font-semibold tracking-[-0.03em] text-[var(--ink)]">
+                      {certificate.title || "Certificate title"}
+                    </h4>
+                    <p className="mt-1 text-sm text-[var(--muted)]">
+                      {[certificate.issuer, certificate.date]
+                        .filter(Boolean)
+                        .join(" · ") || "Add issuer and date"}
+                    </p>
+                  </div>
                 </article>
               ))}
             </div>
             {!certificates.length && (
-              <p className="certificate-help">
+              <p className="mt-5 text-xs leading-5 text-[var(--muted)]">
                 Add certificate details and image paths in{" "}
-                <code>data/certificates.json</code>.
+                <code className="font-semibold text-[var(--ink)]">
+                  data/certificates.json
+                </code>
+                .
               </p>
             )}
           </div>
         </section>
 
         <section
-          className="contact-section section-shell"
+          className="section-shell scroll-mt-[78px] border-t border-[var(--line)] py-[clamp(72px,10vw,128px)]"
           id="contact"
           data-reveal
         >
-          <span className="section-index">05 / CONTACT</span>
-          <p className="contact-eyebrow">HAVE A GOOD ONE IN MIND?</p>
-          <h2>Let&apos;s make<br />something matter.</h2>
-          <button
-            className="pill-link pill-primary contact-link"
-            type="button"
-            onClick={openResume}
-          >
-            View résumé <span aria-hidden="true">↗</span>
-          </button>
-          <div className="contact-bottom">
-            <span>{data.name}</span>
-            <div className="social-links">
-              {data.socials.map((social) => (
+          <div className="rounded-[2rem] border border-[#171717]/10 bg-[var(--accent)] p-7 text-[#171717] tablet:p-12">
+            <p className="text-[11px] font-bold uppercase tracking-[0.16em]">
+              05 / LET&apos;S CONNECT
+            </p>
+            <div className="mt-8 grid gap-8 tablet:grid-cols-[1fr_auto] tablet:items-end">
+              <div>
+                <h2 className="max-w-4xl font-display text-[clamp(3rem,9vw,7.5rem)] font-semibold leading-[0.9] tracking-[-0.09em]">
+                  Have a good one in mind?
+                  <br />
+                  Let&apos;s make it matter.
+                </h2>
+                <p className="mt-5 max-w-xl text-sm leading-6 text-[#171717]/75 tablet:text-base">
+                  I&apos;m always happy to talk about thoughtful design,
+                  accessible experiences, and creative ideas.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-3 tablet:justify-end">
+                {emailLink && (
+                  <a
+                    className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full border-2 border-[#171717] bg-[#171717] px-5 text-sm font-bold !text-white transition-transform duration-200 hover:-translate-y-0.5"
+                    href={emailLink.link}
+                  >
+                    Send me a note <span aria-hidden="true">↗</span>
+                  </a>
+                )}
+                <button
+                  className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full border-2 border-[#171717] px-5 text-sm font-bold text-[#171717] transition-colors duration-200 hover:bg-[#171717] hover:!text-white"
+                  type="button"
+                  onClick={openResume}
+                >
+                  View résumé <span aria-hidden="true">↗</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <footer className="mt-8 flex flex-col gap-6 border-t border-[var(--line)] pt-6 text-xs font-bold uppercase tracking-[0.09em] text-[var(--muted)] tablet:flex-row tablet:items-center tablet:justify-between">
+            <span>© {new Date().getFullYear()} {data.name}</span>
+            <nav className="flex flex-wrap gap-x-5 gap-y-3" aria-label="Social links">
+              {socialLinks.map((social) => (
                 <a
+                  className="transition-colors hover:!text-[var(--ink)]"
                   href={social.link}
                   key={social.id}
                   target={
@@ -400,16 +640,19 @@ export default function Home() {
                   rel="noreferrer"
                 >
                   {social.title.toLowerCase() === "email"
-                    ? "Gmail"
-                    : social.title.toLowerCase() === "github"
-                    ? "GitHub"
+                    ? "Email"
                     : social.title}{" "}
                   <span aria-hidden="true">↗</span>
                 </a>
               ))}
-            </div>
-            <a href="#top">BACK TO TOP ↑</a>
-          </div>
+            </nav>
+            <a
+              className="self-start !text-[var(--ink)] transition-colors hover:!text-[var(--accent)] tablet:self-auto"
+              href="#top"
+            >
+              Back to top ↑
+            </a>
+          </footer>
         </section>
       </main>
       {resumeOpen && (

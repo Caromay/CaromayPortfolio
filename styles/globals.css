@@ -65,10 +65,6 @@ body {
   text-decoration: none;
 }
 
-.portfolio button {
-  font: inherit;
-}
-
 .site-header {
   height: 78px;
   padding: 0 clamp(22px, 5vw, 76px);
@@ -119,8 +115,7 @@ body {
   transition: opacity 160ms ease;
 }
 
-.desktop-nav a:hover,
-.social-links a:hover {
+.desktop-nav a:hover {
   opacity: 0.55;
 }
 
@@ -288,326 +283,6 @@ body {
   letter-spacing: 0.12em;
 }
 
-.content-section {
-  padding-top: clamp(82px, 12vw, 150px);
-  padding-bottom: clamp(70px, 9vw, 115px);
-  border-top: 1px solid var(--line);
-  scroll-margin-top: 78px;
-}
-
-.section-heading {
-  display: grid;
-  grid-template-columns: minmax(170px, 0.36fr) 1fr;
-  align-items: start;
-  gap: 25px;
-  margin-bottom: 38px;
-}
-
-.section-index,
-.work-count {
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-}
-
-.section-heading h2 {
-  max-width: 690px;
-  margin: -9px 0 0;
-  font-family: "Space Grotesk", sans-serif;
-  font-size: clamp(38px, 7vw, 76px);
-  line-height: 0.98;
-  letter-spacing: -0.075em;
-}
-
-.skills-list {
-  margin-left: min(36%, 390px);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.skill-chip {
-  min-height: 54px;
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  padding: 0 18px;
-  border: 1px solid var(--line);
-  border-radius: 28px;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.skill-number {
-  color: var(--muted);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-}
-
-.empty-note {
-  color: var(--muted);
-}
-
-.experience-list {
-  margin-left: min(36%, 390px);
-  border-top: 1px solid var(--line);
-}
-
-.experience-item {
-  display: grid;
-  grid-template-columns: 0.72fr 1.5fr 24px;
-  gap: 22px;
-  padding: 25px 0;
-  border-bottom: 1px solid var(--line);
-}
-
-.experience-date {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.experience-date span + span,
-.experience-detail li {
-  color: var(--muted);
-}
-
-.experience-detail h3 {
-  margin: 0;
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 20px;
-  letter-spacing: -0.04em;
-}
-
-.experience-detail ul {
-  margin: 11px 0 0;
-  padding-left: 18px;
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-.experience-arrow {
-  font-size: 18px;
-}
-
-.work-heading {
-  grid-template-columns: 1fr auto;
-  align-items: end;
-}
-
-.work-heading h2 {
-  margin-top: 18px;
-}
-
-.work-count {
-  padding-bottom: 6px;
-}
-
-.project-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 46px 24px;
-}
-
-.project-card {
-  min-width: 0;
-  transition: transform 220ms ease;
-}
-
-.project-card:hover {
-  transform: translateY(-5px);
-}
-
-.project-image {
-  height: clamp(230px, 34vw, 420px);
-  position: relative;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  background: #e8e5d9;
-}
-
-.project-image img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-  transition: transform 450ms cubic-bezier(0.2, 0.7, 0.3, 1);
-}
-
-.project-card:hover .project-image img {
-  transform: scale(1.035);
-}
-
-.project-image-placeholder {
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #f4c900, #eacac1 55%, #a9ada0);
-}
-
-.project-open {
-  width: 42px;
-  height: 42px;
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--paper);
-  font-size: 20px;
-}
-
-.project-caption {
-  display: grid;
-  grid-template-columns: 37px 1fr;
-  gap: 8px;
-  padding-top: 14px;
-}
-
-.project-index {
-  padding-top: 4px;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.project-caption h3 {
-  margin: 0;
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 23px;
-  letter-spacing: -0.045em;
-}
-
-.project-caption p {
-  margin: 4px 0 0;
-  color: var(--muted);
-  font-size: 14px;
-}
-
-.contact-section {
-  padding-top: clamp(75px, 10vw, 120px);
-  border-top: 1px solid var(--line);
-  scroll-margin-top: 78px;
-}
-
-.contact-eyebrow {
-  margin: 72px 0 15px;
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-}
-
-.contact-section h2 {
-  margin: 0 0 35px -5px;
-  font-family: "Space Grotesk", sans-serif;
-  font-size: clamp(58px, 12vw, 138px);
-  line-height: 0.86;
-  letter-spacing: -0.1em;
-}
-
-.contact-link {
-  margin-bottom: 95px;
-  color: var(--ink);
-  cursor: pointer;
-}
-
-.contact-bottom {
-  min-height: 76px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 18px;
-  border-top: 1px solid var(--line);
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-}
-
-.social-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.work-certificates {
-  margin: clamp(70px, 9vw, 110px) 0 0 min(36%, 390px);
-  padding-top: 30px;
-  border-top: 1px solid var(--line);
-}
-
-.certificates-heading {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 20px;
-  margin-bottom: 24px;
-}
-
-.certificates-heading h3 {
-  margin: 10px 0 0;
-  font-family: "Space Grotesk", sans-serif;
-  font-size: clamp(28px, 4vw, 42px);
-  letter-spacing: -0.06em;
-}
-
-.certificate-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
-}
-
-.certificate-card {
-  min-width: 0;
-  transition: transform 220ms ease;
-}
-
-.certificate-card:hover {
-  transform: translateY(-4px);
-}
-
-.certificate-image-slot {
-  aspect-ratio: 1.42;
-  overflow: hidden;
-  border: 1px dashed var(--line);
-  background: rgba(128, 128, 128, 0.035);
-}
-
-.certificate-image-slot img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-}
-
-.certificate-card h3 {
-  margin: 13px 0 4px;
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 20px;
-}
-
-.certificate-card p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 14px;
-}
-
-.certificate-help {
-  margin: 24px 0 0;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.certificate-help code {
-  color: var(--ink);
-}
-
 .resume-modal-backdrop {
   position: fixed;
   z-index: 50;
@@ -715,13 +390,7 @@ body {
   }
 }
 
-@media (max-width: 1024px) {
-  .work-certificates {
-    margin-left: 0;
-  }
-}
-
-@media (max-width: 760px) {
+@media (max-width: 767px) {
   .site-header {
     height: 70px;
     padding: 0 20px;
@@ -735,18 +404,6 @@ body {
   }
 
   .desktop-nav {
-    flex: 1;
-    justify-content: flex-end;
-    gap: clamp(10px, 3vw, 20px);
-    margin: 0 5px 0 0;
-  }
-
-  .desktop-nav a {
-    font-size: 12px;
-  }
-
-  .desktop-nav a:nth-child(2),
-  .desktop-nav a:nth-child(3) {
     display: none;
   }
 
@@ -783,63 +440,11 @@ body {
   .hero-intro {
     max-width: 580px;
   }
-
-  .section-heading {
-    grid-template-columns: 1fr;
-    gap: 18px;
-  }
-
-  .section-heading h2 {
-    margin-top: 0;
-  }
-
-  .skills-list,
-  .experience-list {
-    margin-left: 0;
-  }
-
-  .work-certificates {
-    margin-top: 65px;
-  }
-
-  .certificate-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin-left: 0;
-  }
-
-  .certificate-help {
-    margin-left: 0;
-  }
-
-  .experience-item {
-    grid-template-columns: 0.7fr 1.3fr 18px;
-    gap: 12px;
-  }
-
-  .project-grid {
-    gap: 34px 16px;
-  }
-
-  .project-image {
-    height: clamp(190px, 45vw, 320px);
-  }
-
-  .contact-bottom {
-    padding: 20px 0;
-  }
 }
 
 @media (max-width: 480px) {
   .site-header {
     padding: 0 14px;
-  }
-
-  .desktop-nav {
-    gap: 11px;
-  }
-
-  .desktop-nav a {
-    font-size: 11px;
   }
 
   .resume-link {
@@ -872,54 +477,6 @@ body {
   .hero-note {
     padding: 0 13px;
     font-size: 12px;
-  }
-
-  .work-heading {
-    grid-template-columns: 1fr;
-  }
-
-  .work-count {
-    padding: 0;
-  }
-
-  .project-grid {
-    grid-template-columns: 1fr;
-    gap: 28px;
-  }
-
-  .certificate-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .project-image {
-    height: 72vw;
-  }
-
-  .experience-item {
-    grid-template-columns: 1fr 24px;
-  }
-
-  .experience-date {
-    grid-column: 1 / -1;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  .experience-detail {
-    grid-column: 1;
-  }
-
-  .experience-arrow {
-    grid-column: 2;
-    grid-row: 2;
-  }
-
-  .contact-section h2 {
-    font-size: clamp(54px, 17vw, 82px);
-  }
-
-  .social-links {
-    gap: 13px;
   }
 
   .resume-modal-backdrop {

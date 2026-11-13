@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Head from "next/head";
+import { ArrowRight, ArrowUp, ArrowUpRight, Menu, X } from "lucide-react";
+import { gsap } from "gsap";
 import { useTheme } from "next-themes";
 import certificates from "../data/certificates.json";
 import data from "../data/portfolio.json";
@@ -66,16 +68,27 @@ export default function Home() {
     const revealItems = document.querySelectorAll(
       ".portfolio [data-reveal]"
     );
-    if (!window.IntersectionObserver) {
-      revealItems.forEach((item) => item.classList.add("is-visible"));
+    if (
+      !window.IntersectionObserver ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
       return undefined;
     }
+
+    gsap.set(revealItems, { autoAlpha: 0, y: 22 });
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
+            gsap.to(entry.target, {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.65,
+              delay: entry.target.dataset.revealDelay === "1" ? 0.09 : 0,
+              ease: "power2.out",
+              clearProps: "opacity,visibility,transform",
+            });
             observer.unobserve(entry.target);
           }
         });
@@ -84,11 +97,11 @@ export default function Home() {
     );
 
     revealItems.forEach((item) => observer.observe(item));
-    document.documentElement.classList.add("motion-ready");
 
     return () => {
       observer.disconnect();
-      document.documentElement.classList.remove("motion-ready");
+      gsap.killTweensOf(revealItems);
+      gsap.set(revealItems, { clearProps: "opacity,visibility,transform" });
     };
   }, []);
 
@@ -131,28 +144,18 @@ export default function Home() {
           ))}
         </nav>
         <button
-          className="grid h-10 w-10 place-items-center rounded-full border border-[var(--line)] text-[var(--ink)] transition-colors hover:bg-[var(--accent)] tablet:hidden"
+          className="grid h-10 w-10 place-items-center rounded-full border border-[var(--line)] text-[var(--ink)] transition-all duration-200 hover:scale-105 hover:bg-[var(--accent)] tablet:hidden"
           type="button"
           aria-label={mobileMenuOpen ? "Close navigation" : "Open navigation"}
           aria-expanded={mobileMenuOpen}
           aria-controls="mobile-navigation"
           onClick={() => setMobileMenuOpen((open) => !open)}
         >
-          <svg
-            aria-hidden="true"
-            className="h-5 w-5"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-          >
-            {mobileMenuOpen ? (
-              <path d="m6 6 12 12M18 6 6 18" />
-            ) : (
-              <path d="M4 7h16M4 12h16M4 17h16" />
-            )}
-          </svg>
+          {mobileMenuOpen ? (
+            <X aria-hidden="true" className="h-5 w-5" />
+          ) : (
+            <Menu aria-hidden="true" className="h-5 w-5" />
+          )}
         </button>
         {mobileMenuOpen && (
           <nav
@@ -189,7 +192,7 @@ export default function Home() {
             type="button"
             onClick={openResume}
           >
-            Résumé <span aria-hidden="true">↗</span>
+            Résumé <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
           </button>
         </div>
       </header>
@@ -219,16 +222,13 @@ export default function Home() {
           </p>
           <div className="hero-actions">
             <a className="pill-link pill-primary" href="#work">
-              See the work <span aria-hidden="true">→</span>
+              See the work <ArrowRight aria-hidden="true" className="h-5 w-5" />
             </a>
             <a className="hero-note" href="#about">
               <span className="status-dot" />
-              A little more about me <span className="note-arrow">↗</span>
+              A little more about me
+              <ArrowUpRight aria-hidden="true" className="note-arrow h-4 w-4" />
             </a>
-          </div>
-          <div className="hero-bottomline">
-            <span>SCROLL TO EXPLORE</span>
-            <span aria-hidden="true">↓</span>
           </div>
         </section>
 
@@ -255,7 +255,8 @@ export default function Home() {
                   className="inline-flex items-center gap-3 border-b border-[var(--ink)] pb-1 text-sm font-bold !text-[var(--ink)] transition-colors hover:border-[var(--accent)]"
                   href="#contact"
                 >
-                  Let&apos;s connect <span aria-hidden="true">↗</span>
+                  Let&apos;s connect
+                  <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
                 </a>
                 <span className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--muted)]">
                   Based in Tapaz, Capiz
@@ -370,48 +371,48 @@ export default function Home() {
           </div>
           <div className="grid gap-6 tablet:grid-cols-2 desktop:grid-cols-3">
             {selectedProjects.map((project, index) => (
-                <a
-                  className="group overflow-hidden rounded-[1.5rem] border border-[var(--line)] bg-[var(--paper)] !text-[var(--ink)] transition-all duration-300 hover:border-[var(--accent)] hover:shadow-[0_18px_45px_rgba(23,23,23,0.1)]"
-                  data-reveal
-                  data-reveal-delay={index % 2}
-                  href={project.url || "#work"}
-                  key={project.id}
-                  target={project.url ? "_blank" : undefined}
-                  rel={project.url ? "noreferrer" : undefined}
-                >
-                  <div className="relative aspect-[4/3] overflow-hidden bg-[#e8e5d9]">
-                    {project.imageSrc ? (
-                      <img
-                        className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                        src={project.imageSrc}
-                        alt={project.title || "Project preview"}
-                        loading="lazy"
-                      />
-                    ) : (
-                      <div className="h-full w-full bg-[linear-gradient(135deg,#f4c900,#eacac1_55%,#a9ada0)]" />
-                    )}
-                    <span className="absolute left-4 top-4 rounded-full bg-[var(--paper)] px-3 py-2 text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--ink)]">
-                      Project {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <span className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-[var(--paper)] text-lg text-[var(--ink)] transition-transform duration-300 group-hover:rotate-45">
-                      ↗
-                    </span>
+              <a
+                className="group overflow-hidden rounded-[1.5rem] border border-[var(--line)] bg-[var(--paper)] !text-[var(--ink)] transition-all duration-300 hover:border-[var(--accent)] hover:shadow-[0_18px_45px_rgba(23,23,23,0.1)]"
+                data-reveal
+                data-reveal-delay={index % 2}
+                href={project.url || "#work"}
+                key={project.id}
+                target={project.url ? "_blank" : undefined}
+                rel={project.url ? "noreferrer" : undefined}
+              >
+                <div className="relative aspect-[4/3] overflow-hidden bg-[#e8e5d9]">
+                  {project.imageSrc ? (
+                    <img
+                      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      src={project.imageSrc}
+                      alt={project.title || "Project preview"}
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="h-full w-full bg-[linear-gradient(135deg,#f4c900,#eacac1_55%,#a9ada0)]" />
+                  )}
+                  <span className="absolute left-4 top-4 rounded-full bg-[var(--paper)] px-3 py-2 text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--ink)]">
+                    Project {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-[var(--paper)] text-lg text-[var(--ink)] transition-transform duration-300 group-hover:rotate-45">
+                    <ArrowUpRight aria-hidden="true" className="h-5 w-5" />
+                  </span>
+                </div>
+                <div className="flex flex-col justify-between gap-6 p-5 tablet:p-6">
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--muted)]">
+                      {project.description || "Selected work"}
+                    </p>
+                    <h3 className="mt-3 font-display text-2xl font-semibold tracking-[-0.05em] tablet:text-3xl">
+                      {project.title || "Project"}
+                    </h3>
                   </div>
-                  <div className="flex flex-col justify-between gap-6 p-5 tablet:p-6">
-                    <div>
-                      <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--muted)]">
-                        {project.description || "Selected work"}
-                      </p>
-                      <h3 className="mt-3 font-display text-2xl font-semibold tracking-[-0.05em] tablet:text-3xl">
-                        {project.title || "Project"}
-                      </h3>
-                    </div>
-                    <span className="inline-flex items-center gap-2 text-sm font-bold">
-                      View project
-                      <span aria-hidden="true">→</span>
-                    </span>
-                  </div>
-                </a>
+                  <span className="inline-flex items-center gap-2 text-sm font-bold">
+                    View project
+                    <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                  </span>
+                </div>
+              </a>
             ))}
           </div>
 
@@ -526,7 +527,8 @@ export default function Home() {
                     className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full border-2 border-[#171717] bg-[#171717] px-5 text-sm font-bold !text-white transition-transform duration-200 hover:-translate-y-0.5"
                     href={emailLink.link}
                   >
-                    Send me a note <span aria-hidden="true">↗</span>
+                    Send me a note
+                    <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
                   </a>
                 )}
                 <button
@@ -534,14 +536,15 @@ export default function Home() {
                   type="button"
                   onClick={openResume}
                 >
-                  View résumé <span aria-hidden="true">↗</span>
+                  View résumé
+                  <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
                 </button>
               </div>
             </div>
           </div>
-          <footer className="mt-8 flex flex-col gap-6 border-t border-[var(--line)] pt-6 text-xs font-bold uppercase tracking-[0.09em] text-[var(--muted)] tablet:flex-row tablet:items-center tablet:justify-between">
+          <footer className="mt-8 flex flex-col items-center gap-6 border-t border-[var(--line)] pt-6 text-center text-xs font-bold uppercase tracking-[0.09em] text-[var(--muted)]">
             <span>© {new Date().getFullYear()} {data.name}</span>
-            <nav className="flex flex-wrap gap-x-5 gap-y-3" aria-label="Social links">
+            <nav className="flex flex-wrap justify-center gap-x-5 gap-y-3" aria-label="Social links">
               {footerSocialLinks.map((social) => (
                 <a
                   className="transition-colors hover:!text-[var(--ink)]"
@@ -555,16 +558,19 @@ export default function Home() {
                   {social.title.toLowerCase() === "email"
                     ? "Email"
                     : social.title}{" "}
-                  <span aria-hidden="true">↗</span>
+                  <ArrowUpRight aria-hidden="true" className="inline h-3 w-3" />
                 </a>
               ))}
             </nav>
-            <a
-              className="self-start !text-[var(--ink)] transition-colors hover:!text-[var(--accent)] tablet:self-auto"
-              href="#top"
+            <button
+              className="grid h-11 w-11 place-items-center rounded-full border border-[var(--line)] bg-[var(--paper)] text-[var(--ink)] transition-all duration-200 hover:-translate-y-1 hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:!text-[#171717]"
+              type="button"
+              aria-label="Back to top"
+              title="Back to top"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             >
-              Back to top ↑
-            </a>
+              <ArrowUp aria-hidden="true" className="h-4 w-4" />
+            </button>
           </footer>
         </section>
       </main>
@@ -604,7 +610,7 @@ export default function Home() {
                   aria-label="Close résumé"
                   onClick={() => setResumeOpen(false)}
                 >
-                  ×
+                  <X aria-hidden="true" className="h-5 w-5" />
                 </button>
               </div>
             </div>

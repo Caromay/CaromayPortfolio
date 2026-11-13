@@ -94,6 +94,12 @@ body {
   font-weight: 700;
   font-size: 17px;
   box-shadow: 3px 3px 0 var(--ink);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.brand-mark:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 var(--ink);
 }
 
 .desktop-nav,
@@ -112,11 +118,23 @@ body {
 .resume-link {
   font-size: 15px;
   font-weight: 600;
-  transition: opacity 160ms ease;
+  transition:
+    color 160ms ease,
+    opacity 160ms ease,
+    transform 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.desktop-nav a {
+  display: inline-flex;
+  align-items: center;
 }
 
 .desktop-nav a:hover {
-  opacity: 0.55;
+  color: var(--accent);
+  opacity: 0.85;
+  transform: translateY(-1px);
 }
 
 .header-actions {
@@ -133,6 +151,16 @@ body {
   cursor: pointer;
   font-size: 22px !important;
   line-height: 1;
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.theme-toggle:hover {
+  transform: rotate(8deg);
+  background: var(--accent);
+  color: #171717;
 }
 
 .resume-link {
@@ -146,10 +174,13 @@ body {
   background: var(--paper);
   box-shadow: 3px 3px 0 var(--ink);
   white-space: nowrap;
+  cursor: pointer;
 }
 
-.resume-link span {
-  font-size: 19px;
+.resume-link:hover {
+  transform: translate(1px, 1px);
+  background: var(--accent);
+  box-shadow: 2px 2px 0 var(--ink);
 }
 
 .section-shell {
@@ -236,15 +267,14 @@ body {
   box-shadow: 2px 2px 0 var(--ink);
 }
 
-.pill-link > span {
+.pill-link > svg {
   width: 42px;
   height: 42px;
-  display: grid;
-  place-items: center;
+  flex: 0 0 auto;
+  padding: 10px;
   border-radius: 50%;
   background: var(--accent);
   color: #171717;
-  font-size: 22px;
 }
 
 .hero-note {
@@ -257,6 +287,18 @@ body {
   border-radius: 30px;
   color: var(--muted) !important;
   font-size: 14px;
+  transition:
+    color 160ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+.hero-note:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent);
+  background: var(--paper);
+  color: var(--ink) !important;
 }
 
 .status-dot {
@@ -269,18 +311,6 @@ body {
 
 .note-arrow {
   color: var(--ink);
-}
-
-.hero-bottomline {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  margin-top: auto;
-  padding-top: 55px;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
 }
 
 .resume-modal-backdrop {
@@ -368,21 +398,6 @@ body {
   outline-offset: 4px;
 }
 
-.motion-ready .portfolio [data-reveal] {
-  opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 650ms ease, transform 650ms cubic-bezier(0.2, 0.7, 0.3, 1);
-}
-
-.motion-ready .portfolio [data-reveal].is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.motion-ready .portfolio [data-reveal-delay="1"] {
-  transition-delay: 90ms;
-}
-
 @media print {
   body {
     background: white !important;
@@ -395,6 +410,7 @@ body {
     height: 70px;
     padding: 0 20px;
     gap: 12px;
+    justify-content: flex-start;
   }
 
   .brand-mark {
@@ -409,6 +425,7 @@ body {
 
   .header-actions {
     gap: 9px;
+    margin-left: auto;
   }
 
   .theme-toggle {
@@ -520,9 +537,4 @@ body {
     transition-duration: 0.01ms !important;
   }
 
-  .motion-ready .portfolio [data-reveal] {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
 }

@@ -16,7 +16,7 @@ const Resume = () => (
       </Link>
       <iframe
         className="h-full w-full border-0"
-        src="https://drive.google.com/file/d/1URfkaosQyaXDNiGOZRwnYApnb4_4nkpV/preview"
+        src="https://drive.google.com/file/d/1URfkaosQyaXDNiGOZRwnYApnb4_4nkpV/view?usp=drive_link"
         title="Ashley&apos;s resume"
         allow="autoplay"
       />

@@ -556,7 +556,7 @@ export default function Home() {
                     </a>
                   )}
                   <button
-                    className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full border-2 border-[#171717] px-5 text-sm font-bold text-[#171717] transition-colors duration-200 hover:bg-[#171717] hover:!text-white"
+                    className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full border-2 border-[#171717] px-5 text-sm font-bold text-[#171717] transition-colors duration-200 hover:bg-white hover:!text-[#171717]"
                     type="button"
                     onClick={openResume}
                   >

@@ -369,14 +369,11 @@ export default function Home() {
           </div>
           <div className="grid gap-6 tablet:grid-cols-2 desktop:grid-cols-3">
             {selectedProjects.map((project, index) => (
-              <a
-                className="group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-[var(--line)] bg-[var(--paper)] !text-[var(--ink)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--accent)] hover:shadow-[0_18px_45px_rgba(23,23,23,0.1)]"
+              <article
+                className="flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-[var(--line)] bg-[var(--paper)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--accent)] hover:shadow-[0_18px_45px_rgba(23,23,23,0.1)]"
                 data-reveal
                 data-reveal-delay={index % 2}
-                href={project.url || "#work"}
                 key={project.id}
-                target={project.url ? "_blank" : undefined}
-                rel={project.url ? "noreferrer" : undefined}
               >
                 <div
                   className={`relative aspect-[4/3] overflow-hidden ${
@@ -385,26 +382,34 @@ export default function Home() {
                       : "bg-[#e8e5d9]"
                   }`}
                 >
-                  {project.imageSrc ? (
-                    <img
-                      className={`h-full w-full transition-transform duration-700 ease-out group-hover:scale-105 ${
-                        project.imageFit === "contain"
-                          ? "object-contain p-6"
-                          : "object-cover"
-                      }`}
-                      src={project.imageSrc}
-                      alt={project.title || "Project preview"}
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="h-full w-full bg-[linear-gradient(135deg,#f4c900,#eacac1_55%,#a9ada0)]" />
-                  )}
-                  <span className="absolute left-4 top-4 rounded-full bg-[var(--paper)] px-3 py-2 text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--ink)]">
-                    Project {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-[var(--paper)] text-lg text-[var(--ink)] transition-transform duration-300 group-hover:rotate-45">
-                    <ArrowUpRight aria-hidden="true" className="h-5 w-5" />
-                  </span>
+                  <a
+                    aria-label={`View ${project.title || "project"}`}
+                    className="group absolute inset-0 block"
+                    href={project.url || "#work"}
+                    target={project.url ? "_blank" : undefined}
+                    rel={project.url ? "noreferrer" : undefined}
+                  >
+                    {project.imageSrc ? (
+                      <img
+                        className={`h-full w-full transition-transform duration-700 ease-out group-hover:scale-105 ${
+                          project.imageFit === "contain"
+                            ? "object-contain p-6"
+                            : "object-cover"
+                        }`}
+                        src={project.imageSrc}
+                        alt={project.title || "Project preview"}
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="h-full w-full bg-[linear-gradient(135deg,#f4c900,#eacac1_55%,#a9ada0)]" />
+                    )}
+                    <span className="absolute left-4 top-4 rounded-full bg-[var(--paper)] px-3 py-2 text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--ink)]">
+                      Project {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-[var(--paper)] text-lg text-[var(--ink)] transition-transform duration-300 group-hover:rotate-45">
+                      <ArrowUpRight aria-hidden="true" className="h-5 w-5" />
+                    </span>
+                  </a>
                 </div>
                 <div className="flex flex-1 flex-col justify-between gap-6 p-5 tablet:p-6">
                   <div>
@@ -415,15 +420,20 @@ export default function Home() {
                       {project.description || "Selected work"}
                     </p>
                   </div>
-                  <span className="mt-auto inline-flex w-fit items-center gap-2 rounded-full border border-[var(--line)] px-4 py-2 text-sm font-bold transition-colors duration-200 group-hover:border-[var(--ink)] group-hover:bg-[var(--ink)] group-hover:!text-[var(--paper)]">
+                  <a
+                    className="group mt-auto inline-flex w-fit items-center gap-2 rounded-full border border-[var(--line)] px-4 py-2 text-sm font-bold transition-colors duration-200 hover:border-[var(--ink)] hover:bg-[var(--ink)] hover:!text-[var(--paper)]"
+                    href={project.url || "#work"}
+                    target={project.url ? "_blank" : undefined}
+                    rel={project.url ? "noreferrer" : undefined}
+                  >
                     View project
                     <ArrowRight
                       aria-hidden="true"
                       className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
                     />
-                  </span>
+                  </a>
                 </div>
-              </a>
+              </article>
             ))}
           </div>
 
@@ -523,9 +533,9 @@ export default function Home() {
               <div className="mt-6 flex flex-col items-center gap-6">
                 <div className="max-w-3xl">
                   <h2 className="mx-auto max-w-2xl font-display text-[clamp(2.25rem,5vw,4.5rem)] font-semibold leading-[0.95] tracking-[-0.08em]">
-                    Have a good one in mind?
+                    Want to know me better?
                     <br />
-                    Let&apos;s make it matter.
+                    Let&apos;s connect.
                   </h2>
                   <p className="mx-auto mt-5 max-w-xl text-sm leading-6 text-[#171717]/75 tablet:text-base">
                     I&apos;m always happy to talk about thoughtful design,
@@ -538,7 +548,7 @@ export default function Home() {
                       className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full border-2 border-[#171717] bg-[#171717] px-5 text-sm font-bold !text-white transition-colors duration-200 hover:bg-white hover:!text-[#171717] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#171717]"
                       href={emailLink.link}
                     >
-                      Send me a note
+                      Get in touch
                       <ArrowUpRight
                         aria-hidden="true"
                         className="h-4 w-4"

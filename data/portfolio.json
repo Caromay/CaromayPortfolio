@@ -1,8 +1,8 @@
 {
   "name": "Ashley",
   "headerTaglineOne": "Hello 👋",
-  "headerTaglineTwo": "I'm Ashley Marie - curious",
-  "headerTaglineThree": "designer and devloper",
+  "headerTaglineTwo": "I'm Ashley Marie - ",
+  "headerTaglineThree": "a Bachelor of Science in Information Technology student ",
   "headerTaglineFour": " based in Tapaz, Capiz.",
   "showBlog": true,
   "showResume": true,
@@ -14,16 +14,10 @@
       "link": "https://github.com/Caromay"
     },
     {
-      "id": "2",
-      "title": "LinkedIn",
-      "link": "https://www.linkedin.com/in/chetanverma7/"
-    },
-    {
       "id": "3",
       "title": "Facebook",
       "link": "https://www.facebook.com/ashley.marie.caromay.2024/"
     },
-    { "id": "4", "title": "Blog", "link": "https://blog.chetanverma.com/" },
     {
       "id": "5",
       "title": "Email",
@@ -55,58 +49,12 @@
       "url": "https://caromay-portfolio.vercel.app/#about"
     }
   ],
-  "services": [
-    {
-      "id": "1",
-      "title": "Art Direction",
-      "description": "We help with the creation and development of online advertising ideas, with particular focus on their visual appearance."
-    },
-    {
-      "id": "2",
-      "title": "Branding",
-      "description": "We design key brand elements such as the logo, color scheme, typography, and other design components that makes your brand stand out from competitors."
-    },
-    {
-      "id": "3",
-      "title": "Web Design",
-      "description": "We build and optimize your online presence.  Website is the digital entry point into your business and a powerful revenue channel."
-    },
-    {
-      "id": "4",
-      "title": "3D Design",
-      "description": "We combine creative design and technical skills to build striking 3D visualisations that bring your project to life."
-    }
-  ],
-  "aboutpara": "Hi! I'm Ash, an IT student with a strong passion for UI/UX design and modern web development. My foundation sits firmly in design—crafting intuitive user flows, functional typography hierarchies, dark-mode themes, and scalable design systems. I focus on creating interfaces that feel clean, intentional, and effortless for users to navigate. At the same time, I’m actively building my capabilities as a developer. Learning to code allows me to understand what happens under the hood, ensuring my designs aren't just visually appealing on canvas, but fully achievable, performant, and clean when brought to life in code. Whether I'm designing component systems in Figma or structuring responsive code, I'm always eager to learn new technologies and bridge the space between design concepts and working software.",
-  "resume": {
-    "tagline": "👋  I'm a software engineer, product designer, and maker.",
-    "description": "I have delivered world-class user experiences to millions of people. Well-versed with React, Javascript, and most of the Web frameworks.",
-    "experiences": [
-      {
-        "id": "1",
-        "dates": "March 2022 - Present",
-        "type": "Full Time",
-        "position": "Frontend Engineer at X",
-        "bullets": [
-          "Worked on the frontend of a React application",
-          "Worked on the frontend of a React application"
-        ]
-      },
-      {
-        "id": "2",
-        "dates": "March 2020 - March 2022",
-        "type": "Full Time",
-        "position": "Frontend Engineer at X",
-        "bullets": ["Worked on the frontend of a React application"]
-      }
-    ],
-    "education": {
-      "universityName": "University X",
-      "universityDate": "2016-2020",
-      "universityPara": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&apos;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
-    },
-    "languages": ["Javascript", "HTML5", "CSS", "Python"],
-    "frameworks": ["React", "Typescript", "NodeJs"],
-    "others": ["Figma", "AdobeXD", "AWS"]
+
+  "aboutpara": "Hi! I'm Ashley Marie Caromay, an IT student with a strong passion for UI/UX design and modern web development. My foundation sits firmly in design—crafting intuitive user flows and scalable design systems. I focus on creating interfaces that feel clean, intentional, and effortless for users to navigate. At the same time, I’m actively building my capabilities as a developer. Learning to code allows me to understand what happens under the hood, ensuring my designs aren't just visually appealing on canvas, but fully achievable, performant, and clean when brought to life in code. Whether I'm mapping out UI systems in Figma or building out responsive frontends, I love picking up new tech and turning visual ideas into real, working products.",
+    "resume": {
+
+    "languages": ["Javascript", "HTML", "CSS", "PHP"],
+    "frameworks": ["React", "NodeJs", "ExpressJs"],
+    "others": ["Figma", "Github", "MySQL", "Vercel"]
   }
 }

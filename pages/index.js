@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, ArrowUp, ArrowUpRight, Menu, X } from "lucide-react";
 import { gsap } from "gsap";
 import { useTheme } from "next-themes";
@@ -262,25 +263,14 @@ export default function Home() {
                 </span>
               </div>
             </div>
-            <div
-              className="relative grid aspect-[4/5] min-h-[260px] w-full place-items-center overflow-hidden rounded-[1.75rem] border border-dashed border-[var(--line)] bg-[#ecebe4] tablet:min-h-[420px] dark:bg-[#22221d]"
-              role="img"
-              aria-label="Photo placeholder. Add your picture here."
-            >
-              <div className="flex flex-col items-center gap-3 text-center">
-                <svg
-                  aria-hidden="true"
-                  className="h-28 w-28 text-[#b8b5a9] dark:text-[#55554e]"
-                  viewBox="0 0 120 120"
-                  fill="currentColor"
-                >
-                  <circle cx="60" cy="40" r="22" />
-                  <path d="M20 112c3-23 18-39 40-39s37 16 40 39H20Z" />
-                </svg>
-                <span className="text-xs font-bold uppercase tracking-[0.14em] text-[#65645e] dark:text-[#b6b4aa]">
-                  Your photo here
-                </span>
-              </div>
+            <div className="relative aspect-[4/5] min-h-[260px] w-full overflow-hidden rounded-[1.75rem] border border-[var(--line)] tablet:min-h-[420px]">
+              <Image
+                src="/images/ashley-profile.jpg"
+                alt="Ashley standing outside"
+                layout="fill"
+                objectFit="cover"
+                objectPosition="center 40%"
+              />
               <span className="absolute right-4 top-4 rounded-full border border-[var(--line)] bg-[var(--paper)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--muted)]">
                 Profile
               </span>
@@ -379,10 +369,20 @@ export default function Home() {
                 target={project.url ? "_blank" : undefined}
                 rel={project.url ? "noreferrer" : undefined}
               >
-                <div className="relative aspect-[4/3] overflow-hidden bg-[#e8e5d9]">
+                <div
+                  className={`relative aspect-[4/3] overflow-hidden ${
+                    project.imageTheme === "dark"
+                      ? "bg-[#171714]"
+                      : "bg-[#e8e5d9]"
+                  }`}
+                >
                   {project.imageSrc ? (
                     <img
-                      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      className={`h-full w-full transition-transform duration-700 ease-out group-hover:scale-105 ${
+                        project.imageFit === "contain"
+                          ? "object-contain p-6"
+                          : "object-cover"
+                      }`}
                       src={project.imageSrc}
                       alt={project.title || "Project preview"}
                       loading="lazy"
@@ -399,12 +399,12 @@ export default function Home() {
                 </div>
                 <div className="flex flex-col justify-between gap-6 p-5 tablet:p-6">
                   <div>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--muted)]">
-                      {project.description || "Selected work"}
-                    </p>
-                    <h3 className="mt-3 font-display text-2xl font-semibold tracking-[-0.05em] tablet:text-3xl">
+                    <h3 className="font-display text-2xl font-semibold tracking-[-0.05em] tablet:text-3xl">
                       {project.title || "Project"}
                     </h3>
+                    <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
+                      {project.description || "Selected work"}
+                    </p>
                   </div>
                   <span className="inline-flex items-center gap-2 text-sm font-bold">
                     View project

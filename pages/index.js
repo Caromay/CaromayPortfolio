@@ -2,7 +2,14 @@ import { useEffect, useMemo, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ArrowUp, ArrowUpRight, Menu, X } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUp,
+  ArrowUpRight,
+  Award,
+  Menu,
+  X,
+} from "lucide-react";
 import { gsap } from "gsap";
 import { useTheme } from "next-themes";
 import certificates from "../data/certificates.json";
@@ -237,13 +244,15 @@ export default function Home() {
           id="about"
           data-reveal
         >
-          <div className="mb-16 grid gap-5 tablet:mb-20 tablet:grid-cols-[minmax(160px,0.36fr)_1fr]">
-            <span className="pt-1 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
-              01 / ABOUT
-            </span>
-            <h2 className="max-w-[690px] font-display text-4xl font-medium leading-[0.98] tracking-[-0.075em] tablet:text-6xl">
-              A bit about me.
-            </h2>
+          <div className="mb-12 flex flex-wrap items-end justify-between gap-6 tablet:mb-16">
+            <div>
+              <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
+                01 / ABOUT
+              </p>
+              <h2 className="max-w-2xl font-display text-4xl font-medium leading-[0.98] tracking-[-0.075em] tablet:text-6xl">
+                A bit about me.
+              </h2>
+            </div>
           </div>
           <div className="grid grid-cols-1 items-center gap-12 tablet:grid-cols-[minmax(0,1.25fr)_minmax(260px,0.75fr)] tablet:gap-16 desktop:gap-20">
             <div className="max-w-3xl">
@@ -279,11 +288,11 @@ export default function Home() {
         </section>
 
         <section
-          className="section-shell scroll-mt-[78px] border-t border-[var(--line)] py-[clamp(72px,10vw,128px)]"
+          className="section-shell scroll-mt-[78px] border-t border-[var(--line)] py-[clamp(88px,12vw,160px)]"
           id="skills"
           data-reveal
         >
-          <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
+          <div className="mb-12 flex flex-wrap items-end justify-between gap-6 tablet:mb-16">
             <div>
               <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
                 02 / CAPABILITIES
@@ -345,13 +354,13 @@ export default function Home() {
           id="work"
           data-reveal
         >
-          <div className="mb-16 flex flex-wrap items-end justify-between gap-6 tablet:mb-20">
+          <div className="mb-12 flex flex-wrap items-end justify-between gap-6 tablet:mb-16">
             <div>
               <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
                 03 / SELECTED WORK
               </p>
               <h2 className="max-w-2xl font-display text-4xl font-medium leading-[0.98] tracking-[-0.075em] tablet:text-6xl">
-                A few things I&apos;ve made.
+                My selected projects.
               </h2>
             </div>
             <span className="rounded-full border border-[var(--line)] px-4 py-2 text-xs font-bold uppercase tracking-[0.1em] text-[var(--muted)]">
@@ -361,7 +370,7 @@ export default function Home() {
           <div className="grid gap-6 tablet:grid-cols-2 desktop:grid-cols-3">
             {selectedProjects.map((project, index) => (
               <a
-                className="group overflow-hidden rounded-[1.5rem] border border-[var(--line)] bg-[var(--paper)] !text-[var(--ink)] transition-all duration-300 hover:border-[var(--accent)] hover:shadow-[0_18px_45px_rgba(23,23,23,0.1)]"
+                className="group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-[var(--line)] bg-[var(--paper)] !text-[var(--ink)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--accent)] hover:shadow-[0_18px_45px_rgba(23,23,23,0.1)]"
                 data-reveal
                 data-reveal-delay={index % 2}
                 href={project.url || "#work"}
@@ -397,7 +406,7 @@ export default function Home() {
                     <ArrowUpRight aria-hidden="true" className="h-5 w-5" />
                   </span>
                 </div>
-                <div className="flex flex-col justify-between gap-6 p-5 tablet:p-6">
+                <div className="flex flex-1 flex-col justify-between gap-6 p-5 tablet:p-6">
                   <div>
                     <h3 className="font-display text-2xl font-semibold tracking-[-0.05em] tablet:text-3xl">
                       {project.title || "Project"}
@@ -406,26 +415,29 @@ export default function Home() {
                       {project.description || "Selected work"}
                     </p>
                   </div>
-                  <span className="inline-flex items-center gap-2 text-sm font-bold">
+                  <span className="mt-auto inline-flex w-fit items-center gap-2 rounded-full border border-[var(--line)] px-4 py-2 text-sm font-bold transition-colors duration-200 group-hover:border-[var(--ink)] group-hover:bg-[var(--ink)] group-hover:!text-[var(--paper)]">
                     View project
-                    <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                    <ArrowRight
+                      aria-hidden="true"
+                      className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+                    />
                   </span>
                 </div>
               </a>
             ))}
           </div>
 
-          <div className="mt-[clamp(88px,11vw,140px)] border-t border-[var(--line)] pt-10 tablet:pt-12">
-            <div className="mb-8 flex flex-wrap items-end justify-between gap-5">
+          <div className="mt-[clamp(48px,6vw,80px)] border-t border-[var(--line)] pt-10 tablet:pt-12">
+            <div className="mb-12 flex flex-wrap items-end justify-between gap-5 tablet:mb-16">
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
-                  LEARNING, DOCUMENTED
+                <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
+                  04 / LEARNING, DOCUMENTED
                 </p>
-                <h3 className="mt-3 font-display text-3xl font-semibold tracking-[-0.06em] text-[var(--ink)] tablet:text-4xl">
+                <h3 className="max-w-2xl font-display text-4xl font-medium leading-[0.98] tracking-[-0.075em] tablet:text-6xl">
                   Certificates & milestones.
                 </h3>
               </div>
-              <span className="text-xs font-bold uppercase tracking-[0.1em] text-[var(--muted)]">
+              <span className="rounded-full border border-[var(--line)] px-4 py-2 text-xs font-bold uppercase tracking-[0.1em] text-[var(--muted)]">
                 {String(certificates.length || 3).padStart(2, "0")} entries
               </span>
             </div>
@@ -437,7 +449,7 @@ export default function Home() {
                   }))
               ).map((certificate, index) => (
                 <article
-                  className="overflow-hidden rounded-[1.5rem] border border-[var(--line)] bg-[var(--paper)] transition-all duration-300 hover:border-[var(--accent)] hover:shadow-lg"
+                  className="group overflow-hidden rounded-[1.5rem] border border-[var(--line)] bg-[var(--paper)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--accent)] hover:shadow-[0_16px_38px_rgba(23,23,23,0.12)]"
                   data-reveal
                   data-reveal-delay={index % 2}
                   key={certificate.id || index}
@@ -445,7 +457,7 @@ export default function Home() {
                   <div className="relative grid aspect-[1.42] place-items-center overflow-hidden bg-[#eeede7] dark:bg-[#22221d]">
                     {certificate.imageSrc ? (
                       <img
-                        className="h-full w-full object-cover"
+                        className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                         src={certificate.imageSrc}
                         alt={certificate.title || "Certificate"}
                         loading="lazy"
@@ -475,6 +487,10 @@ export default function Home() {
                     )}
                   </div>
                   <div className="p-5">
+                    <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#171717]/20 bg-[#f4c900] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#171717] shadow-sm">
+                      <Award aria-hidden="true" className="h-3.5 w-3.5" />
+                      Certificate · 2026
+                    </span>
                     <h4 className="font-display text-lg font-semibold tracking-[-0.03em] text-[var(--ink)]">
                       {certificate.title || "Certificate title"}
                     </h4>
@@ -495,44 +511,53 @@ export default function Home() {
           id="contact"
           data-reveal
         >
-          <div className="mx-auto max-w-4xl rounded-[1.5rem] border border-[#171717]/10 bg-[var(--accent)] p-6 text-[#171717] tablet:p-8 desktop:p-10">
-            <p className="text-[11px] font-bold uppercase tracking-[0.16em]">
-              04 / LET&apos;S CONNECT
-            </p>
-            <div className="mt-6 grid gap-6 desktop:grid-cols-[1fr_auto] desktop:items-end">
-              <div>
-                <h2 className="max-w-2xl font-display text-[clamp(2.25rem,5vw,4.5rem)] font-semibold leading-[0.95] tracking-[-0.08em]">
-                  Have a good one in mind?
-                  <br />
-                  Let&apos;s make it matter.
-                </h2>
-                <p className="mt-5 max-w-xl text-sm leading-6 text-[#171717]/75 tablet:text-base">
-                  I&apos;m always happy to talk about thoughtful design,
-                  accessible experiences, and creative ideas.
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-3 desktop:justify-end">
-                {emailLink && (
-                  <a
-                    className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full border-2 border-[#171717] bg-[#171717] px-5 text-sm font-bold !text-white transition-transform duration-200 hover:-translate-y-0.5"
-                    href={emailLink.link}
+          <div className="relative mx-auto max-w-4xl overflow-hidden rounded-[1.5rem] border border-[#171717]/10 bg-[var(--accent)] p-6 text-[#171717] tablet:p-8 desktop:p-10">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full border-[22px] border-[#171717]/10 desktop:h-64 desktop:w-64"
+            />
+            <div className="relative z-10 text-center">
+              <p className="text-[11px] font-bold uppercase tracking-[0.16em]">
+                05 / LET&apos;S CONNECT
+              </p>
+              <div className="mt-6 flex flex-col items-center gap-6">
+                <div className="max-w-3xl">
+                  <h2 className="mx-auto max-w-2xl font-display text-[clamp(2.25rem,5vw,4.5rem)] font-semibold leading-[0.95] tracking-[-0.08em]">
+                    Have a good one in mind?
+                    <br />
+                    Let&apos;s make it matter.
+                  </h2>
+                  <p className="mx-auto mt-5 max-w-xl text-sm leading-6 text-[#171717]/75 tablet:text-base">
+                    I&apos;m always happy to talk about thoughtful design,
+                    accessible experiences, and creative ideas.
+                  </p>
+                </div>
+                <div className="flex flex-wrap justify-center gap-3">
+                  {emailLink && (
+                    <a
+                      className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full border-2 border-[#171717] bg-[#171717] px-5 text-sm font-bold !text-white shadow-[3px_3px_0_#171717] transition-all duration-200 hover:-translate-y-1 hover:bg-white hover:!text-[#171717] hover:shadow-[5px_5px_0_#171717] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#171717]"
+                      href={emailLink.link}
+                    >
+                      Send me a note
+                      <ArrowUpRight
+                        aria-hidden="true"
+                        className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1"
+                      />
+                    </a>
+                  )}
+                  <button
+                    className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full border-2 border-[#171717] px-5 text-sm font-bold text-[#171717] transition-colors duration-200 hover:bg-[#171717] hover:!text-white"
+                    type="button"
+                    onClick={openResume}
                   >
-                    Send me a note
+                    View résumé
                     <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
-                  </a>
-                )}
-                <button
-                  className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full border-2 border-[#171717] px-5 text-sm font-bold text-[#171717] transition-colors duration-200 hover:bg-[#171717] hover:!text-white"
-                  type="button"
-                  onClick={openResume}
-                >
-                  View résumé
-                  <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
-                </button>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-          <footer className="mt-8 flex flex-col items-center gap-6 border-t border-[var(--line)] pt-6 text-center text-xs font-bold uppercase tracking-[0.09em] text-[var(--muted)]">
+          <footer className="mt-20 flex flex-col items-center gap-6 border-t border-[var(--line)] pt-8 text-center text-xs font-bold uppercase tracking-[0.09em] text-[var(--muted)]">
             <nav className="flex flex-wrap justify-center gap-x-5 gap-y-3" aria-label="Social links">
               {footerSocialLinks.map((social) => (
                 <a

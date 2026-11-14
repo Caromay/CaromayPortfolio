@@ -24,12 +24,16 @@
       "link": "https://twitter.com/realchetanverma"
     },
     { "id": "4", "title": "Blog", "link": "https://blog.chetanverma.com/" },
-    { "id": "5", "title": "Email", "link": "mailto:hello@chetanverma.com" }
+    {
+      "id": "5",
+      "title": "Email",
+      "link": "mailto:caromayashleymarie@gmail.com"
+    }
   ],
   "projects": [
     {
       "id": "1",
-      "title": "AniSave",
+      "title": "Anisave",
       "description": "A cross-platform farm-market system that improves transparency and enables direct transactions between smallholder farmers and buyers.",
       "imageSrc": "/images/anisave-logo.png",
       "imageFit": "contain",
@@ -38,7 +42,7 @@
     },
     {
       "id": "2",
-      "title": "iskOr ISBB",
+      "title": "Iskor",
       "description": "A web app for students to track academic progress in real time while educators manage grades and feedback.",
       "imageSrc": "/images/iskor-logo.jpg",
       "url": "https://iskor-isbb.onrender.com/#/get-started"

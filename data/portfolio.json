@@ -53,8 +53,8 @@
   "aboutpara": "Hi! I'm Ashley Marie Caromay, an IT student with a strong passion for UI/UX design and modern web development. My foundation sits firmly in design—crafting intuitive user flows and scalable design systems. I focus on creating interfaces that feel clean, intentional, and effortless for users to navigate. At the same time, I’m actively building my capabilities as a developer. Learning to code allows me to understand what happens under the hood, ensuring my designs aren't just visually appealing on canvas, but fully achievable, performant, and clean when brought to life in code. Whether I'm mapping out UI systems in Figma or building out responsive frontends, I love picking up new tech and turning visual ideas into real, working products.",
     "resume": {
 
-    "languages": ["Javascript", "HTML", "CSS", "PHP"],
-    "frameworks": ["React", "NodeJs", "ExpressJs"],
-    "others": ["Figma", "Github", "MySQL", "Vercel"]
+    "languages": ["JavaScript", "HTML", "CSS", "PHP"],
+    "frameworks": ["Tailwind CSS", "Next.js", "Express.js"],
+    "others": ["Figma", "GitHub", "MySQL", "Vercel"]
   }
 }

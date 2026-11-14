@@ -1,1 +1,23 @@
-[]
+[
+  {
+    "id": "iot",
+    "title": "Introduction to IoT",
+    "issuer": "Simplilearn",
+    "date": "2 August 2026",
+    "imageSrc": "/images/iot-certificate.png"
+  },
+  {
+    "id": "safe",
+    "title": "Introduction to SAFe",
+    "issuer": "Simplilearn",
+    "date": "2 August 2026",
+    "imageSrc": "/images/safe-certificate.png"
+  },
+  {
+    "id": "cyber-security",
+    "title": "Introduction to Cyber Security",
+    "issuer": "Simplilearn",
+    "date": "2 August 2026",
+    "imageSrc": "/images/cyber-security-certificate.png"
+  }
+]

@@ -41,7 +41,6 @@
       "title": "iskOr ISBB",
       "description": "A web app for students to track academic progress in real time while educators manage grades and feedback.",
       "imageSrc": "/images/iskor-logo.jpg",
-      "imageFit": "contain",
       "url": "https://iskor-isbb.onrender.com/#/get-started"
     },
     {

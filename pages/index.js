@@ -487,15 +487,6 @@ export default function Home() {
                 </article>
               ))}
             </div>
-            {!certificates.length && (
-              <p className="mt-5 text-xs leading-5 text-[var(--muted)]">
-                Add certificate details and image paths in{" "}
-                <code className="font-semibold text-[var(--ink)]">
-                  data/certificates.json
-                </code>
-                .
-              </p>
-            )}
           </div>
         </section>
 

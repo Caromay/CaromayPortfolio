@@ -517,7 +517,7 @@ export default function Home() {
               className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full border-[22px] border-[#171717]/10 desktop:h-64 desktop:w-64"
             />
             <div className="relative z-10 text-center">
-              <p className="text-[11px] font-bold uppercase tracking-[0.16em]">
+              <p className="self-start text-left text-[11px] font-bold uppercase tracking-[0.16em]">
                 05 / LET&apos;S CONNECT
               </p>
               <div className="mt-6 flex flex-col items-center gap-6">
@@ -535,13 +535,13 @@ export default function Home() {
                 <div className="flex flex-wrap justify-center gap-3">
                   {emailLink && (
                     <a
-                      className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full border-2 border-[#171717] bg-[#171717] px-5 text-sm font-bold !text-white shadow-[3px_3px_0_#171717] transition-all duration-200 hover:-translate-y-1 hover:bg-white hover:!text-[#171717] hover:shadow-[5px_5px_0_#171717] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#171717]"
+                      className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full border-2 border-[#171717] bg-[#171717] px-5 text-sm font-bold !text-white transition-colors duration-200 hover:bg-white hover:!text-[#171717] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#171717]"
                       href={emailLink.link}
                     >
                       Send me a note
                       <ArrowUpRight
                         aria-hidden="true"
-                        className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1"
+                        className="h-4 w-4"
                       />
                     </a>
                   )}
@@ -557,7 +557,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <footer className="mt-20 flex flex-col items-center gap-6 border-t border-[var(--line)] pt-8 text-center text-xs font-bold uppercase tracking-[0.09em] text-[var(--muted)]">
+          <footer className="mt-24 flex flex-col items-center gap-6 border-t border-[var(--line)] pt-8 text-center text-xs font-bold uppercase tracking-[0.09em] text-[var(--muted)]">
             <nav className="flex flex-wrap justify-center gap-x-5 gap-y-3" aria-label="Social links">
               {footerSocialLinks.map((social) => (
                 <a

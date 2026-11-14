@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import Head from "next/head";
+import Link from "next/link";
 import { ArrowRight, ArrowUp, ArrowUpRight, Menu, X } from "lucide-react";
 import { gsap } from "gsap";
 import { useTheme } from "next-themes";
@@ -37,7 +38,6 @@ export default function Home() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [resumeOpen, setResumeOpen] = useState(false);
-  const [resumeLoaded, setResumeLoaded] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const skillGroups = useMemo(
     () => getSkillGroups(data.resume || {}),
@@ -58,7 +58,6 @@ export default function Home() {
     .slice(0, 2)
     .toUpperCase();
   const openResume = () => {
-    setResumeLoaded(false);
     setResumeOpen(true);
   };
 
@@ -543,7 +542,6 @@ export default function Home() {
             </div>
           </div>
           <footer className="mt-8 flex flex-col items-center gap-6 border-t border-[var(--line)] pt-6 text-center text-xs font-bold uppercase tracking-[0.09em] text-[var(--muted)]">
-            <span>© {new Date().getFullYear()} {data.name}</span>
             <nav className="flex flex-wrap justify-center gap-x-5 gap-y-3" aria-label="Social links">
               {footerSocialLinks.map((social) => (
                 <a
@@ -562,6 +560,7 @@ export default function Home() {
                 </a>
               ))}
             </nav>
+            <span>© {new Date().getFullYear()} {data.name}</span>
             <button
               className="grid h-11 w-11 place-items-center rounded-full border border-[var(--line)] bg-[var(--paper)] text-[var(--ink)] transition-all duration-200 hover:-translate-y-1 hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:!text-[#171717]"
               type="button"
@@ -590,20 +589,9 @@ export default function Home() {
             <div className="resume-modal-header">
               <h2 id="resume-modal-title">Résumé</h2>
               <div className="resume-modal-actions">
-                <a href="/resume" target="_blank" rel="noreferrer">
-                  Open full page
-                </a>
-                <button
-                  type="button"
-                  disabled={!resumeLoaded}
-                  onClick={() =>
-                    document
-                      .getElementById("resume-preview")
-                      ?.contentWindow?.print()
-                  }
-                >
-                  Download / Save as PDF
-                </button>
+                <Link href="/resume">
+                  <a>Open full page</a>
+                </Link>
                 <button
                   className="resume-modal-close"
                   type="button"
@@ -617,9 +605,9 @@ export default function Home() {
             <iframe
               id="resume-preview"
               className="resume-preview"
-              src="/resume"
+              src="https://drive.google.com/file/d/1URfkaosQyaXDNiGOZRwnYApnb4_4nkpV/preview"
               title={`${data.name} résumé`}
-              onLoad={() => setResumeLoaded(true)}
+              allow="autoplay"
             />
           </section>
         </div>

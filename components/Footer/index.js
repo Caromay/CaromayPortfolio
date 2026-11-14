@@ -2,6 +2,7 @@ import React from "react";
 import Socials from "../Socials";
 import Link from "next/link";
 import Button from "../Button";
+import data from "../../data/portfolio.json";
 
 const Footer = ({}) => {
   return (
@@ -17,9 +18,7 @@ const Footer = ({}) => {
               TOGETHER
             </h1>
             <Button
-              onClick={() =>
-                window.open("/resume", "_blank", "noopener,noreferrer")
-              }
+              onClick={() => (window.location.href = "/resume")}
               type="primary"
             >
               Resume
@@ -27,6 +26,9 @@ const Footer = ({}) => {
             <div className="mt-10">
               <Socials />
             </div>
+            <p className="mt-4 text-sm">
+              © {new Date().getFullYear()} {data.name}
+            </p>
           </div>
         </div>
       </div>

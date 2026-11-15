@@ -54,7 +54,7 @@
     "resume": {
 
     "languages": ["JavaScript", "HTML", "CSS", "PHP"],
-    "frameworks": ["Tailwind CSS", "Next.js", "Express.js"],
+    "frameworks": ["Tailwind CSS", "Express.js"],
     "others": ["Figma", "GitHub", "MySQL", "Vercel"]
   }
 }

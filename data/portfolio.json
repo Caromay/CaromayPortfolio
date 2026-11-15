@@ -55,6 +55,6 @@
 
     "languages": ["JavaScript", "HTML", "CSS", "PHP"],
     "frameworks": ["Tailwind CSS", "Express.js"],
-    "others": ["Figma", "GitHub", "MySQL", "Vercel"]
+    "others": ["Figma", "MySQL", "Vercel", "GitHub"]
   }
 }
